@@ -10,6 +10,9 @@ main :: proc() {
 	create_window()
 	defer rl.CloseWindow()
 
+	rl.InitAudioDevice()
+	defer rl.CloseAudioDevice()
+
 	game.init_game()
 
 	for !rl.WindowShouldClose() {
