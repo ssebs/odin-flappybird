@@ -23,7 +23,8 @@ See current status in [TODO.md](./TODO.md)
   - `odin build .`
 
 ## LICENSE
-[Apache 2.0](./LICENSE)
+- This repo / game [Apache 2.0](./LICENSE)
+- The assets: https://github.com/samuelcust/flappy-bird-assets
 
 ## Docs
 - [odin raylib](https://pkg.odin-lang.org/vendor/raylib/#InitWindow)
