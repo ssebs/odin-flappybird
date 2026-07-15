@@ -19,6 +19,6 @@ main :: proc() {
 }
 
 create_window :: proc() {
-	rl.InitWindow(i32(WINDOW_SIZE_X), i32(WINDOW_SIZE_Y), GAME_NAME_C)
+	rl.InitWindow(i32(game.WINDOW_SIZE_X), i32(game.WINDOW_SIZE_Y), game.GAME_NAME_C)
 	rl.SetTargetFPS(60)
 }

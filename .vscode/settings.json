@@ -1,4 +1,7 @@
 {
-    "todoSidebar.activeFile": "./TODO.md",
-    "todoSidebar.onDoneAction": "move"
+  "todoSidebar.activeFile": "./TODO.md",
+  "todoSidebar.onDoneAction": "move",
+  "editor.formatOnSave": true,
+  "editor.wordWrap": "bounded",
+  "editor.wordWrapColumn": 120
 }
