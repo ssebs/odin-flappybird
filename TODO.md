@@ -1,9 +1,9 @@
 # TODO
 
 ## In Progress
-- [ ] planning
-  - [x] basic requirements for the game
-  - [ ] abstraction for flappybird & clean code
+- [ ] create moving character
+  - [ ] texture loader
+  - [ ] sprite animation
 
 ## Backlog
 - [ ] create moving character
@@ -17,4 +17,8 @@
 - [ ] save high score to disk
 
 ## Done
+- [x] planning
+  - [x] basic requirements for the game
+  - [x] abstraction for flappybird & clean code
+
 - [x] create window
