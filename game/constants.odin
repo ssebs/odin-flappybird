@@ -23,7 +23,7 @@ SoundName :: enum {
 }
 
 // map of texture name to rel file path from root of proj
-texture_file_name_map := map[TextureName]string {
+texture_file_name_map := map[TextureName]cstring {
 	TextureName.BG_DAY        = "./assets/sprites/background-day.png",
 	TextureName.BASE          = "./assets/sprites/base.png",
 	TextureName.PIPE          = "./assets/sprites/pipe-green.png",
@@ -34,7 +34,7 @@ texture_file_name_map := map[TextureName]string {
 }
 
 // map of sound name to rel file path from root of proj
-sound_file_name_map := map[SoundName]string {
+sound_file_name_map := map[SoundName]cstring {
 	SoundName.DIE    = "./assets/audio/die.ogg",
 	SoundName.HIT    = "./assets/audio/hit.ogg",
 	SoundName.POINT  = "./assets/audio/point.ogg",

@@ -2,13 +2,13 @@
 package game
 
 import "core:fmt"
-import "core:strings"
 import b2 "vendor:box2d"
 import rl "vendor:raylib"
 
 gravity: f32 = -9.8
 jump: f32 = 256.0
 
+ground_height: i32
 
 Bird :: struct #all_or_none {
 	texture:         rl.Texture,
@@ -20,14 +20,10 @@ Bird :: struct #all_or_none {
 	update_proc:     proc(this: ^Bird),
 }
 
-init_bird :: proc(img_path: string) -> ^Bird {
-	cs, err := strings.clone_to_cstring(img_path)
-	if err != nil {
-		fmt.println("Could not convert string to cstring: ", img_path)
-	}
-	tx := rl.LoadTexture(cs)
-	// fmt.println("tex:", tx)
+init_bird :: proc(_ground_height: i32) -> ^Bird {
+	ground_height = _ground_height
 
+	tx := rl.LoadTexture(texture_file_name_map[TextureName.BIRD_DOWNFLAP])
 	col := b2.MakeBox(f32(tx.width) / 2, f32(tx.height) / 2)
 	pos := rl.Vector2{(WINDOW_SIZE_X / 2) - f32(tx.width) / 2, WINDOW_SIZE_Y / 2}
 
@@ -51,7 +47,7 @@ draw_bird :: proc(this: ^Bird) {
 
 update_bird :: proc(this: ^Bird) {
 	// Reset if we hit the bottom
-	if this.position.y >= WINDOW_SIZE_Y {
+	if this.position.y >= WINDOW_SIZE_Y - f32(ground_height + this.texture.height) {
 		fmt.println("LOSE. Speed: ", this.velocity)
 		this.position.y = 0
 		this.velocity = 0

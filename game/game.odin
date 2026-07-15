@@ -1,6 +1,5 @@
 package game
 
-import "core:fmt"
 import rl "vendor:raylib"
 
 score := 0
@@ -9,11 +8,10 @@ player_bird: Bird
 bg: Background
 
 init_game :: proc() {
-	// init bird, add to game_objects
-	player_bird = init_bird(texture_file_name_map[TextureName.BIRD_DOWNFLAP])^
-	// fmt.println("player_bird: ", player_bird)
+	bg = init_background()^
 
-	bg = init_background(texture_file_name_map[TextureName.BG_DAY])^
+	player_bird = init_bird(bg.ground_texture.height)^
+	// fmt.println("player_bird: ", player_bird)
 
 	// ...
 }
