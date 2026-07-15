@@ -3,10 +3,10 @@
 Flappybird written in Odin + Raylib 
 
 ## Screenshot / Demo
-TBD
+![screenshot](./img/screenshot.png)
 
 ## TODO
-See current status in [TODO.md](./TODO.md)
+> See current status in [TODO.md](./TODO.md)
 
 ## Running
 ### From Release
