@@ -6,7 +6,7 @@ import b2 "vendor:box2d"
 import rl "vendor:raylib"
 
 gravity: f32 = -9.8
-jump: f32 = 256.0
+jump: f32 = 300.0
 starting_pos: rl.Vector2
 ground_height: i32
 was_just_reset := true
@@ -78,4 +78,9 @@ reset_bird :: proc(this: ^Bird) {
 	this.position = starting_pos
 	this.velocity = 0
 	was_just_reset = true
+}
+
+exit_bird :: proc(this: ^Bird) {
+	rl.UnloadSound(this.flap_sound)
+	rl.UnloadTexture(this.texture)
 }

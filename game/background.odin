@@ -2,7 +2,7 @@ package game
 
 import rl "vendor:raylib"
 
-ground_move_speed: f32 = 20.0
+ground_move_speed: f32 = 32.0
 ground_pos: f32 = 0
 
 
@@ -48,4 +48,9 @@ update_background :: proc(this: ^Background) {
 	} else {
 		ground_pos = 0
 	}
+}
+
+exit_background :: proc(this: ^Background) {
+	rl.UnloadTexture(this.bg_texture)
+	rl.UnloadTexture(this.ground_texture)
 }

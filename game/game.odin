@@ -43,3 +43,9 @@ draw_game :: proc() {
 	bg->draw_proc()
 	player_bird->draw_proc()
 }
+
+exit_game :: proc() {
+	rl.UnloadSound(whoosh_sound)
+	exit_bird(&player_bird)
+	exit_background(&bg)
+}
