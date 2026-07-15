@@ -1,7 +1,6 @@
 # TODO
 
 ## In Progress
-- [ ] SFX - Flap
 - [ ] SFX - Hit + Die 
 - [ ] SFX - Point
 
@@ -17,6 +16,8 @@
 - [ ] save high score to disk
 
 ## Done
+- [x] SFX - Flap
+
 - [x] create ground hitboxes
 
 - [x] create moving character
