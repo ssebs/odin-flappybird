@@ -1,8 +1,10 @@
 package game
 
-import "core:fmt"
-import "core:strings"
 import rl "vendor:raylib"
+
+ground_move_speed: f32 = 20.0
+ground_pos: f32 = 0
+
 
 Background :: struct #all_or_none {
 	bg_texture:     rl.Texture,
@@ -29,9 +31,21 @@ draw_background :: proc(this: ^Background) {
 
 	rl.DrawTexture(
 		this.ground_texture,
-		0,
+		i32(ground_pos),
+		i32(WINDOW_SIZE_Y) - this.ground_texture.height,
+		rl.WHITE,
+	)
+	rl.DrawTexture(
+		this.ground_texture,
+		i32(WINDOW_SIZE_X + ground_pos),
 		i32(WINDOW_SIZE_Y) - this.ground_texture.height,
 		rl.WHITE,
 	)
 }
-update_background :: proc(this: ^Background) {}
+update_background :: proc(this: ^Background) {
+	if game_state == GameState.PLAYING {
+		ground_pos -= ground_move_speed * rl.GetFrameTime()
+	} else {
+		ground_pos = 0
+	}
+}

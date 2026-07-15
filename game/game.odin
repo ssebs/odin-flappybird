@@ -14,14 +14,21 @@ init_game :: proc() {
 	// fmt.println("player_bird: ", player_bird)
 
 	// ...
+
 }
 
 /*
 * Mutate state here
 */
 update_game :: proc() {
-	bg->update_proc()
-	player_bird->update_proc()
+	if game_state == GameState.STOPPED {
+		if rl.IsKeyPressed(rl.KeyboardKey.SPACE) {
+			game_state = GameState.PLAYING
+		}
+	} else if game_state == GameState.PLAYING {
+		bg->update_proc()
+		player_bird->update_proc()
+	}
 }
 
 /*
@@ -34,10 +41,4 @@ draw_game :: proc() {
 
 	bg->draw_proc()
 	player_bird->draw_proc()
-}
-
-GameState :: enum {
-	STOPPED,
-	STARTED,
-	PAUSED,
 }

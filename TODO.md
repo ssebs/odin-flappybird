@@ -1,24 +1,28 @@
 # TODO
 
 ## In Progress
-- [ ] create moving character
-  - [ ] texture loader
-  - [ ] sprite animation
+- [ ] SFX - Flap
+- [ ] SFX - Hit + Die 
+- [ ] SFX - Point
 
 ## Backlog
-- [ ] create moving character
+- [ ] animation on character
+  - [ ] fall rotation
   - [ ] sprite animation
-- [ ] create repeating background
-  - [ ] create randomly gen'd pipes
-- [ ] create ground hitboxes
-- [ ] create pipe hitboxes
+- [ ] create randomly gen'd pipes
+  - [ ] create pipe hitboxes
+- [ ] Scoring
 - [ ] add UI to show score
 - [ ] add reset / start / end screen
 - [ ] save high score to disk
 
 ## Done
+- [x] create ground hitboxes
+
+- [x] create moving character
+  - [x] texture loader
+- [x] create repeating background
 - [x] planning
   - [x] basic requirements for the game
   - [x] abstraction for flappybird & clean code
-
 - [x] create window

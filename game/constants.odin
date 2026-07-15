@@ -5,6 +5,12 @@ WINDOW_SIZE_X: f32 = 288.0
 WINDOW_SIZE_Y: f32 = 512.0
 GAME_NAME_C: cstring = "Odin Flappybird"
 
+GameState :: enum {
+	STOPPED,
+	PLAYING,
+	// PAUSED,
+}
+
 TextureName :: enum {
 	BG_DAY,
 	BASE,

@@ -7,7 +7,7 @@ import rl "vendor:raylib"
 
 gravity: f32 = -9.8
 jump: f32 = 256.0
-
+starting_pos: rl.Vector2
 ground_height: i32
 
 Bird :: struct #all_or_none {
@@ -25,11 +25,11 @@ init_bird :: proc(_ground_height: i32) -> ^Bird {
 
 	tx := rl.LoadTexture(texture_file_name_map[TextureName.BIRD_DOWNFLAP])
 	col := b2.MakeBox(f32(tx.width) / 2, f32(tx.height) / 2)
-	pos := rl.Vector2{(WINDOW_SIZE_X / 2) - f32(tx.width) / 2, WINDOW_SIZE_Y / 2}
+	starting_pos = rl.Vector2{(WINDOW_SIZE_X / 2) - f32(tx.width) / 2, WINDOW_SIZE_Y / 2}
 
 	b: ^Bird = &Bird {
 		texture = tx,
-		position = pos,
+		position = starting_pos,
 		rotation = 0,
 		velocity = 0,
 		collision_shape = col,
@@ -49,11 +49,15 @@ update_bird :: proc(this: ^Bird) {
 	// Reset if we hit the bottom
 	if this.position.y >= WINDOW_SIZE_Y - f32(ground_height + this.texture.height) {
 		fmt.println("LOSE. Speed: ", this.velocity)
-		this.position.y = 0
+		this.position = starting_pos
 		this.velocity = 0
+		game_state = GameState.STOPPED
 		return
 	}
 
+	if game_state != GameState.PLAYING {
+		return
+	}
 
 	// if player has input, apply -gravity
 	if rl.IsKeyPressed(rl.KeyboardKey.SPACE) {
