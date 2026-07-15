@@ -5,6 +5,9 @@ Flappybird written in Odin + Raylib
 ## Screenshot / Demo
 TBD
 
+## TODO
+See current status in [TODO.md](./TODO.md)
+
 ## Running
 ### From Release
 - Go to [Releases](https://github.com/ssebs/odin-flappybird/releases/)

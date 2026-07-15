@@ -1,0 +1,4 @@
+{
+    "todoSidebar.activeFile": "./TODO.md",
+    "todoSidebar.onDoneAction": "move"
+}
