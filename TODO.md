@@ -2,6 +2,8 @@
 
 ## In Progress
 - [ ] planning
+  - [x] basic requirements for the game
+  - [ ] abstraction for flappybird & clean code
 
 ## Backlog
 - [ ] create moving character
