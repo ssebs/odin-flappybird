@@ -1,6 +1,7 @@
 # TODO
 
 ## In Progress
+- [ ] background looping doesn't reset
 - [ ] SFX - Hit + Die 
 - [ ] SFX - Point
 
