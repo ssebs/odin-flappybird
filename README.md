@@ -24,3 +24,9 @@ See current status in [TODO.md](./TODO.md)
 
 ## LICENSE
 [Apache 2.0](./LICENSE)
+
+## Docs
+- [odin raylib](https://pkg.odin-lang.org/vendor/raylib/#InitWindow)
+- [odin core](https://pkg.odin-lang.org/core/strings/#to_cstring)
+- [raylib](https://www.raylib.com/examples.html)
+- [odin tetris](https://github.com/odin-lang/examples/blob/master/raylib/tetroid/raylib_tetroid.odin)
