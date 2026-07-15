@@ -12,6 +12,7 @@ See current status in [TODO.md](./TODO.md)
 ### From Release
 - Go to [Releases](https://github.com/ssebs/odin-flappybird/releases/)
 - Download the version for your platform (only Windows is compiled atm)
+
 <!-- TODO: see `odin build . -target:"?"` -->
 
 ### From Source
@@ -27,7 +28,9 @@ See current status in [TODO.md](./TODO.md)
 - The assets: https://github.com/samuelcust/flappy-bird-assets
 
 ## Docs
+- [Odin Lang Overview](https://odin-lang.org/docs/overview/)
 - [odin raylib](https://pkg.odin-lang.org/vendor/raylib/#InitWindow)
 - [odin core](https://pkg.odin-lang.org/core/strings/#to_cstring)
 - [raylib](https://www.raylib.com/examples.html)
+- [Box2D for collision](https://box2d.org/documentation/md_collision.html#autotoc_md36)
 - [odin tetris](https://github.com/odin-lang/examples/blob/master/raylib/tetroid/raylib_tetroid.odin)
