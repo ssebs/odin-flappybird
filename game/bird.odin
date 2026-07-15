@@ -6,6 +6,10 @@ import "core:strings"
 import b2 "vendor:box2d"
 import rl "vendor:raylib"
 
+gravity: f32 = -80.0
+jump: f32 = 40.0
+
+
 Bird :: struct #all_or_none {
 	texture:         rl.Texture,
 	position:        rl.Vector2,
@@ -24,7 +28,7 @@ init_bird :: proc(img_path: string) -> ^Bird {
 	// fmt.println("tex:", tx)
 
 	col := b2.MakeBox(f32(tx.width) / 2, f32(tx.height) / 2)
-	pos := rl.Vector2{(f32(WINDOW_SIZE_X) / 2) - f32(tx.width) / 2, f32(WINDOW_SIZE_Y) / 2}
+	pos := rl.Vector2{(WINDOW_SIZE_X / 2) - f32(tx.width) / 2, WINDOW_SIZE_Y / 2}
 
 	b: ^Bird = &Bird {
 		texture = tx,
@@ -39,26 +43,25 @@ init_bird :: proc(img_path: string) -> ^Bird {
 }
 
 draw_bird :: proc(this: ^Bird) {
-	// src_rect := rl.Rectangle {
-	// 	this.position.x,
-	// 	this.position.y,
-	// 	f32(this.texture.width),
-	// 	f32(this.texture.height),
-	// }
-	// dst_rect := rl.Rectangle {
-	// 	this.position.x / 2,
-	// 	this.position.y / 2,
-	// 	f32(this.texture.width) * 2,
-	// 	f32(this.texture.height) * 2,
-	// }
-	// origin := rl.Vector2{this.position.x, this.position.y + (f32(this.texture.height) / 2)}
-
-	// fmt.println("draw_bird:", this.texture, src_rect, dst_rect, origin, this.rotation)
-	// rl.DrawTexturePro(this.texture, src_rect, dst_rect, origin, this.rotation, rl.WHITE)
+	// TODO: animate w/ sprite sheet
 	rl.DrawTextureEx(this.texture, this.position, this.rotation, 1.0, rl.WHITE)
-
 }
 
 update_bird :: proc(this: ^Bird) {
+	// as long as position > 0, use gravity
+	if this.position.y >= WINDOW_SIZE_Y {
+		fmt.println("LOSE")
+		return
+	}
 
+	velocity: f32
+
+	// if player has input, apply -gravity
+	if rl.IsKeyPressed(rl.KeyboardKey.SPACE) {
+		velocity = jump * 100
+	} else {
+		velocity = gravity
+	}
+
+	this.position.y -= velocity * rl.GetFrameTime()
 }

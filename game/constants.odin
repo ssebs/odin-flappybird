@@ -1,8 +1,8 @@
 #+feature dynamic-literals
 package game
 
-WINDOW_SIZE_X := 288
-WINDOW_SIZE_Y := 512
+WINDOW_SIZE_X: f32 = 288.0
+WINDOW_SIZE_Y: f32 = 512.0
 GAME_NAME_C: cstring = "Odin Flappybird"
 
 TextureName :: enum {
