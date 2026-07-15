@@ -6,8 +6,8 @@ import "core:strings"
 import b2 "vendor:box2d"
 import rl "vendor:raylib"
 
-gravity: f32 = -80.0
-jump: f32 = 40.0
+gravity: f32 = -9.8
+jump: f32 = 256.0
 
 
 Bird :: struct #all_or_none {
@@ -15,6 +15,7 @@ Bird :: struct #all_or_none {
 	position:        rl.Vector2,
 	rotation:        f32, // degrees
 	collision_shape: b2.Polygon,
+	velocity:        f32,
 	draw_proc:       proc(this: ^Bird),
 	update_proc:     proc(this: ^Bird),
 }
@@ -34,6 +35,7 @@ init_bird :: proc(img_path: string) -> ^Bird {
 		texture = tx,
 		position = pos,
 		rotation = 0,
+		velocity = 0,
 		collision_shape = col,
 		update_proc = update_bird,
 		draw_proc = draw_bird,
@@ -48,20 +50,20 @@ draw_bird :: proc(this: ^Bird) {
 }
 
 update_bird :: proc(this: ^Bird) {
-	// as long as position > 0, use gravity
+	// Reset if we hit the bottom
 	if this.position.y >= WINDOW_SIZE_Y {
-		fmt.println("LOSE")
+		fmt.println("LOSE. Speed: ", this.velocity)
+		this.position.y = 0
+		this.velocity = 0
 		return
 	}
 
-	velocity: f32
 
 	// if player has input, apply -gravity
 	if rl.IsKeyPressed(rl.KeyboardKey.SPACE) {
-		velocity = jump * 100
-	} else {
-		velocity = gravity
+		this.velocity = jump
 	}
+	this.velocity += gravity
 
-	this.position.y -= velocity * rl.GetFrameTime()
+	this.position.y -= this.velocity * rl.GetFrameTime()
 }
