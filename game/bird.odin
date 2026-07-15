@@ -20,12 +20,11 @@ init_bird :: proc(img_path: string) -> ^Bird {
 	if err != nil {
 		fmt.println("Could not convert string to cstring: ", img_path)
 	}
-
 	tx := rl.LoadTexture(cs)
 	// fmt.println("tex:", tx)
 
 	col := b2.MakeBox(f32(tx.width) / 2, f32(tx.height) / 2)
-	pos := rl.Vector2{f32(WINDOW_SIZE_X) / 2, f32(WINDOW_SIZE_Y) / 2}
+	pos := rl.Vector2{(f32(WINDOW_SIZE_X) / 2) - f32(tx.width) / 2, f32(WINDOW_SIZE_Y) / 2}
 
 	b: ^Bird = &Bird {
 		texture = tx,
@@ -40,21 +39,23 @@ init_bird :: proc(img_path: string) -> ^Bird {
 }
 
 draw_bird :: proc(this: ^Bird) {
-	src_rect := rl.Rectangle {
-		this.position.x,
-		this.position.y,
-		f32(this.texture.width),
-		f32(this.texture.height),
-	}
-	dst_rect := rl.Rectangle {
-		this.position.x,
-		this.position.y,
-		f32(this.texture.width),
-		f32(this.texture.height),
-	}
-	origin := rl.Vector2{this.position.x, this.position.y + (f32(this.texture.height) / 2)}
+	// src_rect := rl.Rectangle {
+	// 	this.position.x,
+	// 	this.position.y,
+	// 	f32(this.texture.width),
+	// 	f32(this.texture.height),
+	// }
+	// dst_rect := rl.Rectangle {
+	// 	this.position.x / 2,
+	// 	this.position.y / 2,
+	// 	f32(this.texture.width) * 2,
+	// 	f32(this.texture.height) * 2,
+	// }
+	// origin := rl.Vector2{this.position.x, this.position.y + (f32(this.texture.height) / 2)}
 
-	rl.DrawTexturePro(this.texture, src_rect, dst_rect, origin, this.rotation, rl.WHITE)
+	// fmt.println("draw_bird:", this.texture, src_rect, dst_rect, origin, this.rotation)
+	// rl.DrawTexturePro(this.texture, src_rect, dst_rect, origin, this.rotation, rl.WHITE)
+	rl.DrawTextureEx(this.texture, this.position, this.rotation, 1.0, rl.WHITE)
 
 }
 

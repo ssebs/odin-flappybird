@@ -12,6 +12,7 @@ TextureName :: enum {
 	BIRD_DOWNFLAP,
 	BIRD_MIDFLAP,
 	BIRD_UPFLAP,
+	ICON,
 }
 SoundName :: enum {
 	DIE,
@@ -29,6 +30,7 @@ texture_file_name_map := map[TextureName]string {
 	TextureName.BIRD_DOWNFLAP = "./assets/sprites/yellowbird-downflap.png",
 	TextureName.BIRD_MIDFLAP  = "./assets/sprites/yellowbird-midflap.png",
 	TextureName.BIRD_UPFLAP   = "./assets/sprites/yellowbird-upflap.png",
+	TextureName.ICON          = "./assets/favicon.png",
 }
 
 // map of sound name to rel file path from root of proj

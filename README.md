@@ -19,9 +19,9 @@ See current status in [TODO.md](./TODO.md)
 - [Install Odin](https://odin-lang.org/docs/install/)
 - Clone this repo
 - Run:
-  - `odin run .`
+  - `odin run .` (or `make run`)
 - Build:
-  - `odin build .`
+  - `make build`
 
 ## LICENSE
 - This repo / game [Apache 2.0](./LICENSE)
