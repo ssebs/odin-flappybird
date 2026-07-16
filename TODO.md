@@ -16,12 +16,10 @@
 - [ ] save high score to disk
 
 ## Done
+- [x] nested structs
 - [x] background looping doesn't reset
-
 - [x] SFX - Flap
-
 - [x] create ground hitboxes
-
 - [x] create moving character
   - [x] texture loader
 - [x] create repeating background

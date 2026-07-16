@@ -4,18 +4,22 @@ import rl "vendor:raylib"
 
 score := 0
 game_state: GameState = GameState.STOPPED
+
 player_bird: Bird
 bg: Background
 whoosh_sound: rl.Sound
 
 init_game :: proc() {
 	bg = init_background()^
-
-	player_bird = init_bird(bg.ground_texture.height)^
-	// fmt.println("player_bird: ", player_bird)
+	player_bird = NewBird(bg.ground_texture.height)^
 
 	whoosh_sound = rl.LoadSound(sound_file_name_map[SoundName.SWOOSH])
 	rl.PlaySound(whoosh_sound)
+}
+exit_game :: proc() {
+	rl.UnloadSound(whoosh_sound)
+	exit_bird(&player_bird)
+	exit_background(&bg)
 }
 
 /*
@@ -39,9 +43,9 @@ draw_game :: proc() {
 	rl.BeginDrawing()
 	defer rl.EndDrawing()
 	rl.ClearBackground(rl.BLACK)
-
 	begin_scaled_view()
 	defer end_scaled_view()
+
 
 	bg->draw_proc()
 	player_bird->draw_proc()
@@ -52,6 +56,7 @@ draw_game :: proc() {
 * with centered black letterbox bars. Clips overscan to the play area.
 * NOTE - this func was written by claude.
 */
+@(private = "file")
 begin_scaled_view :: proc() {
 	w, h := f32(rl.GetScreenWidth()), f32(rl.GetScreenHeight())
 	zoom := min(w / WINDOW_SIZE_X, h / WINDOW_SIZE_Y)
@@ -68,13 +73,8 @@ begin_scaled_view :: proc() {
 /*
 * NOTE - this func was written by claude
 */
+@(private = "file")
 end_scaled_view :: proc() {
 	rl.EndMode2D()
 	rl.EndScissorMode()
-}
-
-exit_game :: proc() {
-	rl.UnloadSound(whoosh_sound)
-	exit_bird(&player_bird)
-	exit_background(&bg)
 }

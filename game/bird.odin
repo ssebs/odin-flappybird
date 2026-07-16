@@ -1,7 +1,6 @@
 // Bird.odin - The player
 package game
 
-import "core:fmt"
 import b2 "vendor:box2d"
 import rl "vendor:raylib"
 
@@ -12,17 +11,13 @@ ground_height: i32
 was_just_reset := true
 
 Bird :: struct #all_or_none {
-	texture:         rl.Texture,
-	position:        rl.Vector2,
-	rotation:        f32, // degrees
-	collision_shape: b2.Polygon,
-	velocity:        f32,
-	flap_sound:      rl.Sound,
-	draw_proc:       proc(this: ^Bird),
-	update_proc:     proc(this: ^Bird),
+	using game_entity: GameEntity,
+	texture:           rl.Texture,
+	flap_sound:        rl.Sound,
+	smack_sound:       rl.Sound,
 }
 
-init_bird :: proc(_ground_height: i32) -> ^Bird {
+NewBird :: proc(_ground_height: i32) -> ^Bird {
 	ground_height = _ground_height
 
 	tx := rl.LoadTexture(texture_file_name_map[TextureName.BIRD_DOWNFLAP])
@@ -30,18 +25,30 @@ init_bird :: proc(_ground_height: i32) -> ^Bird {
 	starting_pos = rl.Vector2{(WINDOW_SIZE_X / 2) - f32(tx.width) / 2, WINDOW_SIZE_Y / 2}
 
 	b: ^Bird = &Bird {
+		game_entity = GameEntity {
+			game_object = GameObject {
+				update_proc = update_bird,
+				draw_proc = draw_bird,
+				exit_proc = exit_bird,
+			},
+			position = starting_pos,
+			rotation = 0,
+			velocity = 0,
+			collision_shape = col,
+		},
 		texture = tx,
-		position = starting_pos,
-		rotation = 0,
-		velocity = 0,
 		flap_sound = rl.LoadSound(sound_file_name_map[SoundName.WING]),
-		collision_shape = col,
-		update_proc = update_bird,
-		draw_proc = draw_bird,
+		smack_sound = rl.LoadSound(sound_file_name_map[SoundName.HIT]),
 	}
 
 	return b
 }
+exit_bird :: proc(this: ^Bird) {
+	rl.UnloadSound(this.flap_sound)
+	rl.UnloadSound(this.smack_sound)
+	rl.UnloadTexture(this.texture)
+}
+
 
 draw_bird :: proc(this: ^Bird) {
 	// TODO: animate w/ sprite sheet
@@ -51,7 +58,7 @@ draw_bird :: proc(this: ^Bird) {
 update_bird :: proc(this: ^Bird) {
 	// Reset if we hit the bottom
 	if this.position.y >= WINDOW_SIZE_Y - f32(ground_height + this.texture.height) {
-		fmt.println("LOSE. Speed: ", this.velocity)
+		rl.PlaySound(this.smack_sound)
 		reset_bird(this)
 		game_state = GameState.STOPPED
 		return
@@ -74,13 +81,9 @@ update_bird :: proc(this: ^Bird) {
 	}
 }
 
+@(private = "file")
 reset_bird :: proc(this: ^Bird) {
 	this.position = starting_pos
 	this.velocity = 0
 	was_just_reset = true
-}
-
-exit_bird :: proc(this: ^Bird) {
-	rl.UnloadSound(this.flap_sound)
-	rl.UnloadTexture(this.texture)
 }

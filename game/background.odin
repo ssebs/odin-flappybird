@@ -7,12 +7,10 @@ GROUND_MOVE_SPEED: f32 : 68.0
 ground_pos: f32 = 0
 bg_pos: f32 = 0
 
-
 Background :: struct #all_or_none {
-	bg_texture:     rl.Texture,
-	ground_texture: rl.Texture,
-	draw_proc:      proc(this: ^Background),
-	update_proc:    proc(this: ^Background),
+	using game_object: GameObject,
+	bg_texture:        rl.Texture,
+	ground_texture:    rl.Texture,
 }
 
 init_background :: proc() -> ^Background {
@@ -20,12 +18,19 @@ init_background :: proc() -> ^Background {
 	ground_tx := rl.LoadTexture(texture_file_name_map[TextureName.BASE])
 
 	b: ^Background = &Background {
+		game_object = GameObject {
+			draw_proc = draw_background,
+			update_proc = update_background,
+			exit_proc = exit_background,
+		},
 		bg_texture = bg_tx,
 		ground_texture = ground_tx,
-		draw_proc = draw_background,
-		update_proc = update_background,
 	}
 	return b
+}
+exit_background :: proc(this: ^Background) {
+	rl.UnloadTexture(this.bg_texture)
+	rl.UnloadTexture(this.ground_texture)
 }
 
 draw_background :: proc(this: ^Background) {
@@ -56,10 +61,6 @@ update_background :: proc(this: ^Background) {
 	}
 }
 
-exit_background :: proc(this: ^Background) {
-	rl.UnloadTexture(this.bg_texture)
-	rl.UnloadTexture(this.ground_texture)
-}
 
 /*
 * Handle moving a position var & reseting after 1 loop

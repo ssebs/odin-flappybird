@@ -7,6 +7,7 @@ import rl "vendor:raylib"
 
 main :: proc() {
 	fmt.println("Odin Flappybird")
+
 	create_window()
 	defer rl.CloseWindow()
 
@@ -19,6 +20,7 @@ main :: proc() {
 		game.update_game()
 		game.draw_game()
 	}
+	game.exit_game()
 }
 
 create_window :: proc() {
