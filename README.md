@@ -21,7 +21,8 @@ Flappybird written in Odin + Raylib
 - Run:
   - `odin run .` (or `make run`)
 - Build:
-  - `make build`
+  - `make build-[platform]`
+  - > See [Makefile](./Makefile)
 
 ## LICENSE
 - This repo / game [Apache 2.0](./LICENSE)
