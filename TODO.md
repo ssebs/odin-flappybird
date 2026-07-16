@@ -1,19 +1,20 @@
 # TODO
 
 ## In Progress
-- [ ] SFX - Hit + Die 
-- [ ] SFX - Point
+- [ ] create randomly gen'd pipes
+  - [ ] create pipe hitboxes
 
 ## Backlog
+- [ ] SFX - Hit + Die 
+- [ ] SFX - Point
 - [ ] animation on character
   - [ ] fall rotation
   - [ ] sprite animation
-- [ ] create randomly gen'd pipes
-  - [ ] create pipe hitboxes
 - [ ] Scoring
 - [ ] add UI to show score
 - [ ] add reset / start / end screen
 - [ ] save high score to disk
+- [ ] save volume setting to disk
 
 ## Done
 - [x] nested structs

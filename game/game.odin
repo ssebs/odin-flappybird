@@ -7,11 +7,15 @@ game_state: GameState = GameState.STOPPED
 
 player_bird: Bird
 bg: Background
+ground: Ground
+pipe_spawner: PipeSpawner
 whoosh_sound: rl.Sound
 
 init_game :: proc() {
 	bg = init_background()^
-	player_bird = NewBird(bg.ground_texture.height)^
+	ground = init_ground()^
+	player_bird = NewBird(ground.ground_texture.height)^
+	pipe_spawner = NewPipeSpawner()^
 
 	whoosh_sound = rl.LoadSound(sound_file_name_map[SoundName.SWOOSH])
 	rl.PlaySound(whoosh_sound)
@@ -20,6 +24,8 @@ exit_game :: proc() {
 	rl.UnloadSound(whoosh_sound)
 	exit_bird(&player_bird)
 	exit_background(&bg)
+	exit_ground(&ground)
+	exit_pipespawner(&pipe_spawner)
 }
 
 /*
@@ -32,6 +38,8 @@ update_game :: proc() {
 		}
 	} else if game_state == GameState.PLAYING {
 		bg->update_proc()
+		pipe_spawner->update_proc()
+		ground->update_proc()
 		player_bird->update_proc()
 	}
 }
@@ -48,6 +56,8 @@ draw_game :: proc() {
 
 
 	bg->draw_proc()
+	pipe_spawner->draw_proc()
+	ground->draw_proc()
 	player_bird->draw_proc()
 }
 

@@ -5,6 +5,8 @@ WINDOW_SIZE_X: f32 : 288.0
 WINDOW_SIZE_Y: f32 : 512.0
 GAME_NAME_C: cstring : "Odin Flappybird"
 
+GROUND_MOVE_SPEED: f32 : 68.0
+
 GameState :: enum {
 	STOPPED,
 	PLAYING,

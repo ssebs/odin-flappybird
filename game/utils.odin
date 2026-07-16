@@ -16,3 +16,13 @@ GameEntity :: struct #all_or_none {
 	collision_shape:   b2.Polygon,
 	velocity:          f32,
 }
+
+/*
+* Handle moving a position var & reseting after 1 loop
+*/
+parallax_it :: proc(pos_var: ^f32, width: f32, move_speed: f32) {
+	pos_var^ -= move_speed * rl.GetFrameTime()
+	if abs(pos_var^) > width {
+		pos_var^ = 0
+	}
+}
