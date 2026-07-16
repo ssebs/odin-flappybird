@@ -6,8 +6,12 @@ import rl "vendor:raylib"
 
 GRAVITY: f32 : -9.8
 JUMP: f32 : 300.0
+
+@(private = "file")
 starting_pos: rl.Vector2
+@(private = "file")
 ground_height: i32
+@(private = "file")
 was_just_reset := true
 
 Bird :: struct #all_or_none {

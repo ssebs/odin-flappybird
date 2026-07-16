@@ -1,5 +1,7 @@
 package game
 
+import "core:fmt"
+import "core:math/rand"
 import b2 "vendor:box2d"
 import rl "vendor:raylib"
 
@@ -15,7 +17,7 @@ NewPipeSpawner :: proc() -> ^PipeSpawner {
 			update_proc = update_pipespawner,
 			draw_proc = draw_pipespawner,
 		},
-		pipes = [4]^Pipe{NewPipe(false), NewPipe(true), NewPipe(false), NewPipe(true)},
+		pipes = [4]^Pipe{NewPipe(), NewPipe(), NewPipe(), NewPipe()},
 	}
 	return ps
 }
@@ -25,11 +27,34 @@ exit_pipespawner :: proc(this: ^PipeSpawner) {
 		free(this.pipes[0])
 	}
 }
+
+rename_me :: proc(pipes: [4]^Pipe) {
+
+	offset_range: f32 = 20.0
+
+	for i := 0; i < len(pipes); i += 1 {
+
+		pipes[i].position.x -= GROUND_MOVE_SPEED * 0.5 * rl.GetFrameTime()
+		if pipes[i].position.x <= 0 {
+			pipes[i].upside_down = (i % 2 == 0) ? true : false
+
+			pipes[i].position.x = WINDOW_SIZE_X
+			if i % 2 == 0 {
+				pipes[i].position.y = (0 + rand.float32_range(-offset_range, offset_range))
+			} else {
+				pipes[i].position.y =
+					(WINDOW_SIZE_Y + rand.float32_range(-offset_range, offset_range))
+
+			}
+			if i >= 2 {
+				pipes[i].position.x += f32(pipes[i].texture.width) * 3
+			}
+		}
+	}
+}
+
 update_pipespawner :: proc(this: ^PipeSpawner) {
-
-	this.pipes[0].position = {0, 0}
-	this.pipes[1].position = {0, WINDOW_SIZE_Y - f32(this.pipes[1].texture.height)}
-
+	rename_me(this.pipes)
 
 	for pipe in this.pipes {
 		pipe->update_proc()
@@ -41,7 +66,9 @@ draw_pipespawner :: proc(this: ^PipeSpawner) {
 	}
 }
 
+
 ////////////////////////////////////////////////////////////////////////////////
+
 
 // Single Pipe
 Pipe :: struct #all_or_none {
@@ -50,7 +77,7 @@ Pipe :: struct #all_or_none {
 	upside_down:       bool,
 }
 
-NewPipe :: proc(is_upside_down: bool) -> ^Pipe {
+NewPipe :: proc() -> ^Pipe {
 	tx := rl.LoadTexture(texture_file_name_map[TextureName.PIPE])
 	col := b2.MakeBox(f32(tx.width) / 2, f32(tx.height) / 2)
 
@@ -62,13 +89,13 @@ NewPipe :: proc(is_upside_down: bool) -> ^Pipe {
 					draw_proc = draw_pipe,
 					exit_proc = exit_pipe,
 				},
-				position = starting_pos,
+				position = 0,
 				rotation = 0,
 				velocity = 0,
 				collision_shape = col,
 			},
 			texture = tx,
-			upside_down = is_upside_down,
+			upside_down = false,
 		},
 	)
 	return p

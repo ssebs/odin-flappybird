@@ -2,7 +2,7 @@
 
 ## In Progress
 - [ ] create randomly gen'd pipes
-  - [ ] create pipe hitboxes
+- [ ] create pipe hitboxes
 
 ## Backlog
 - [ ] SFX - Hit + Die 
