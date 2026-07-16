@@ -5,8 +5,8 @@ import "core:fmt"
 import b2 "vendor:box2d"
 import rl "vendor:raylib"
 
-gravity: f32 = -9.8
-jump: f32 = 300.0
+GRAVITY: f32 : -9.8
+JUMP: f32 : 300.0
 starting_pos: rl.Vector2
 ground_height: i32
 was_just_reset := true
@@ -63,10 +63,10 @@ update_bird :: proc(this: ^Bird) {
 
 	// if player has input, apply -gravity
 	if rl.IsKeyPressed(rl.KeyboardKey.SPACE) || was_just_reset {
-		this.velocity = jump
+		this.velocity = JUMP
 		rl.PlaySound(this.flap_sound)
 	}
-	this.velocity += gravity
+	this.velocity += GRAVITY
 	this.position.y -= this.velocity * rl.GetFrameTime()
 
 	if was_just_reset {

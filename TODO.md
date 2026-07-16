@@ -1,7 +1,6 @@
 # TODO
 
 ## In Progress
-- [ ] background looping doesn't reset
 - [ ] SFX - Hit + Die 
 - [ ] SFX - Point
 
@@ -17,6 +16,8 @@
 - [ ] save high score to disk
 
 ## Done
+- [x] background looping doesn't reset
+
 - [x] SFX - Flap
 
 - [x] create ground hitboxes

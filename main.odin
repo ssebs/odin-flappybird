@@ -22,7 +22,7 @@ main :: proc() {
 }
 
 create_window :: proc() {
-	rl.SetConfigFlags({.WINDOW_RESIZABLE})
+	rl.SetConfigFlags({.WINDOW_RESIZABLE, .VSYNC_HINT})
 	rl.InitWindow(i32(game.WINDOW_SIZE_X), i32(game.WINDOW_SIZE_Y), game.GAME_NAME_C)
 	rl.SetTargetFPS(60)
 
