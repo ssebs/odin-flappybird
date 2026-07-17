@@ -1,11 +1,8 @@
 # TODO
 
 ## In Progress
-- [ ] reset pipes on die
 
 ## Backlog
-- [ ] SFX - Hit + Die 
-- [ ] SFX - Point
 - [ ] animation on character
   - [ ] fall rotation
   - [ ] sprite animation
@@ -16,6 +13,9 @@
 - [ ] increase ground move speed over time
 
 ## Done
+- [x] SFX - Point
+- [x] SFX - Hit + Die 
+- [x] reset pipes on die
 - [x] Scoring
 - [x] create pipe hitboxes
 - [x] create randomly gen'd pipes

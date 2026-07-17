@@ -7,6 +7,7 @@ PipeSpawner :: struct #all_or_none {
 	using game_object: GameObject,
 	pipes:             [PIPE_PAIRS * 2]^Pipe,
 	ground_height:     f32,
+	reset_proc:        proc(this: ^PipeSpawner),
 }
 
 NewPipeSpawner :: proc(_ground_height: i32) -> ^PipeSpawner {
@@ -16,17 +17,12 @@ NewPipeSpawner :: proc(_ground_height: i32) -> ^PipeSpawner {
 			update_proc = update_pipespawner,
 			draw_proc = draw_pipespawner,
 		},
+		reset_proc = reset_pipespawner,
 		pipes = [PIPE_PAIRS * 2]^Pipe{NewPipe(), NewPipe(), NewPipe(), NewPipe()},
 		ground_height = f32(_ground_height),
 	}
+	ps->reset_proc()
 
-	// stagger the pairs evenly over the distance a pair travels before it wraps
-	spacing := (WINDOW_SIZE_X + f32(ps.pipes[0].texture.width)) / PIPE_PAIRS
-	for pair in 0 ..< PIPE_PAIRS {
-		top, bottom := ps.pipes[pair * 2], ps.pipes[pair * 2 + 1]
-		top.upside_down = true
-		place_pipe_pair(ps, top, bottom, WINDOW_SIZE_X + f32(pair) * spacing)
-	}
 	return ps
 }
 exit_pipespawner :: proc(this: ^PipeSpawner) {
@@ -38,6 +34,9 @@ exit_pipespawner :: proc(this: ^PipeSpawner) {
 
 
 update_pipespawner :: proc(this: ^PipeSpawner) {
+	if game_state == GameState.DYING {
+		return
+	}
 	scroll_pipes(this)
 
 	for pipe in this.pipes {
@@ -50,6 +49,15 @@ draw_pipespawner :: proc(this: ^PipeSpawner) {
 	}
 }
 
+reset_pipespawner :: proc(this: ^PipeSpawner) {
+	// stagger the pairs evenly over the distance a pair travels before it wraps
+	spacing := (WINDOW_SIZE_X + f32(this.pipes[0].texture.width)) / PIPE_PAIRS
+	for pair in 0 ..< PIPE_PAIRS {
+		top, bottom := this.pipes[pair * 2], this.pipes[pair * 2 + 1]
+		top.upside_down = true
+		place_pipe_pair(this, top, bottom, WINDOW_SIZE_X + f32(pair) * spacing)
+	}
+}
 /*
 * Put a pair at x with a fresh gap, kept fully on screen and above the ground
 */

@@ -6,13 +6,15 @@ WINDOW_SIZE_Y: f32 : 512.0
 GAME_NAME_C: cstring : "Odin Flappybird"
 
 GROUND_MOVE_SPEED: f32 : 68.0
-
+GRAVITY: f32 : -9.8
+JUMP: f32 : 300.0
 PIPE_GAP: f32 : 120.0 // vertical opening the bird flies through
 PIPE_PAIRS :: 2
 
 GameState :: enum {
 	STOPPED,
 	PLAYING,
+	DYING,
 	// PAUSED,
 }
 

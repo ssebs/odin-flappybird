@@ -3,13 +3,15 @@ package game
 import "core:fmt"
 import rl "vendor:raylib"
 
-score: int
 game_state: GameState = GameState.STOPPED
 
 player_bird: Bird
+score: int
 bg: Background
 ground: Ground
 pipe_spawner: PipeSpawner
+smack_sound: rl.Sound
+fall_sound: rl.Sound
 whoosh_sound: rl.Sound
 money_sound: rl.Sound
 
@@ -21,11 +23,16 @@ init_game :: proc() {
 
 	money_sound = rl.LoadSound(sound_file_name_map[SoundName.POINT])
 	whoosh_sound = rl.LoadSound(sound_file_name_map[SoundName.SWOOSH])
+	fall_sound = rl.LoadSound(sound_file_name_map[SoundName.DIE])
+	smack_sound = rl.LoadSound(sound_file_name_map[SoundName.HIT])
 	rl.PlaySound(whoosh_sound)
 }
 exit_game :: proc() {
 	rl.UnloadSound(whoosh_sound)
 	rl.UnloadSound(money_sound)
+	rl.UnloadSound(fall_sound)
+	rl.UnloadSound(smack_sound)
+
 	exit_bird(&player_bird)
 	exit_background(&bg)
 	exit_ground(&ground)
@@ -40,7 +47,7 @@ update_game :: proc() {
 		if rl.IsKeyPressed(rl.KeyboardKey.SPACE) || rl.IsMouseButtonPressed(rl.MouseButton.LEFT) {
 			game_state = GameState.PLAYING
 		}
-	} else if game_state == GameState.PLAYING {
+	} else {
 		bg->update_proc()
 		pipe_spawner->update_proc()
 		ground->update_proc()
@@ -73,12 +80,12 @@ check_collisions :: proc() {
 	// Reset if we hit the bottom
 	if player_bird.position.y >=
 	   WINDOW_SIZE_Y - f32(ground.ground_texture.height + player_bird.texture.height) {
-		rl.PlaySound(player_bird.smack_sound)
-		player_bird->reset_proc()
+		player_bird.is_falling = false
+		player_die()
+		return
+	}
 
-		// pipes->reset_proc()
-
-		game_state = GameState.STOPPED
+	if player_bird.is_falling {
 		return
 	}
 
@@ -101,13 +108,8 @@ check_collisions :: proc() {
 
 			// In pipe vertically
 			if b_top_y <= p_bot_y && b_bot_y >= p_top_y {
-				fmt.println("COLLIDE")
-				rl.PlaySound(player_bird.smack_sound)
-				player_bird->reset_proc()
-
-				// pipes->reset_proc()
-
-				game_state = GameState.STOPPED
+				player_bird.is_falling = true
+				player_die()
 				return
 			}
 
@@ -116,13 +118,40 @@ check_collisions :: proc() {
 		// Check if we passed a pipe
 		if p_right_x <= b_left_x && !pipe.scored {
 			pipe.scored = true
-			score += 1
-			rl.PlaySound(money_sound)
-			// increase score UI
+			player_score()
+			return
 		}
 	}
 }
 
+
+@(private = "file")
+/*
+* is_falling will play the smack sound, then the fall sound
+*/
+player_die :: proc() {
+	if game_state != GameState.DYING {
+		rl.PlaySound(smack_sound)
+	}
+	if player_bird.is_falling {
+		game_state = GameState.DYING
+		rl.PlaySound(fall_sound)
+		return
+	}
+
+	fmt.println("Die!")
+	player_bird->reset_proc()
+	pipe_spawner->reset_proc()
+	game_state = GameState.STOPPED
+
+}
+@(private = "file")
+player_score :: proc() {
+	score += 1
+	fmt.println("Scored! - ", score)
+	rl.PlaySound(money_sound)
+	// increase score UI
+}
 
 /*
 * Scales the native-resolution content to fit the window, keeping aspect ratio

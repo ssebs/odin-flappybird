@@ -3,8 +3,6 @@ package game
 
 import rl "vendor:raylib"
 
-GRAVITY: f32 : -9.8
-JUMP: f32 : 300.0
 
 @(private = "file")
 starting_pos: rl.Vector2
@@ -15,8 +13,8 @@ Bird :: struct #all_or_none {
 	using game_entity: GameEntity,
 	texture:           rl.Texture,
 	flap_sound:        rl.Sound,
-	smack_sound:       rl.Sound,
 	reset_proc:        proc(this: ^Bird),
+	is_falling:        bool,
 }
 
 NewBird :: proc() -> ^Bird {
@@ -36,15 +34,14 @@ NewBird :: proc() -> ^Bird {
 		},
 		texture = tx,
 		flap_sound = rl.LoadSound(sound_file_name_map[SoundName.WING]),
-		smack_sound = rl.LoadSound(sound_file_name_map[SoundName.HIT]),
 		reset_proc = reset_bird,
+		is_falling = false,
 	}
 
 	return b
 }
 exit_bird :: proc(this: ^Bird) {
 	rl.UnloadSound(this.flap_sound)
-	rl.UnloadSound(this.smack_sound)
 	rl.UnloadTexture(this.texture)
 }
 
@@ -55,12 +52,15 @@ draw_bird :: proc(this: ^Bird) {
 }
 
 update_bird :: proc(this: ^Bird) {
-	if game_state != GameState.PLAYING {
+	if game_state == GameState.STOPPED {
 		return
 	}
 
+
 	// if player has input, apply -gravity
-	if rl.IsKeyPressed(rl.KeyboardKey.SPACE) ||
+	if this.is_falling {
+
+	} else if rl.IsKeyPressed(rl.KeyboardKey.SPACE) ||
 	   rl.IsMouseButtonPressed(rl.MouseButton.LEFT) ||
 	   was_just_reset {
 		this.velocity = JUMP

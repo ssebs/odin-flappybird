@@ -32,7 +32,9 @@ draw_background :: proc(this: ^Background) {
 }
 
 update_background :: proc(this: ^Background) {
-	if game_state == GameState.PLAYING {
+	if game_state == GameState.DYING {
+		return
+	} else if game_state == GameState.PLAYING {
 		parallax_it(&bg_pos, f32(this.bg_texture.width), GROUND_MOVE_SPEED / 2)
 	} else {
 		bg_pos = 0
