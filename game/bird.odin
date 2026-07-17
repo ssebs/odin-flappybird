@@ -1,7 +1,6 @@
 // Bird.odin - The player
 package game
 
-import b2 "vendor:box2d"
 import rl "vendor:raylib"
 
 GRAVITY: f32 : -9.8
@@ -25,7 +24,6 @@ NewBird :: proc(_ground_height: i32) -> ^Bird {
 	ground_height = _ground_height
 
 	tx := rl.LoadTexture(texture_file_name_map[TextureName.BIRD_DOWNFLAP])
-	col := b2.MakeBox(f32(tx.width) / 2, f32(tx.height) / 2)
 	starting_pos = rl.Vector2{(WINDOW_SIZE_X / 2) - f32(tx.width) / 2, WINDOW_SIZE_Y / 2}
 
 	b: ^Bird = &Bird {
@@ -38,7 +36,6 @@ NewBird :: proc(_ground_height: i32) -> ^Bird {
 			position = starting_pos,
 			rotation = 0,
 			velocity = 0,
-			collision_shape = col,
 		},
 		texture = tx,
 		flap_sound = rl.LoadSound(sound_file_name_map[SoundName.WING]),

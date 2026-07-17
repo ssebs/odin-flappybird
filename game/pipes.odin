@@ -1,7 +1,6 @@
 package game
 
 import "core:math/rand"
-import b2 "vendor:box2d"
 import rl "vendor:raylib"
 
 PipeSpawner :: struct #all_or_none {
@@ -91,7 +90,6 @@ Pipe :: struct #all_or_none {
 
 NewPipe :: proc() -> ^Pipe {
 	tx := rl.LoadTexture(texture_file_name_map[TextureName.PIPE])
-	col := b2.MakeBox(f32(tx.width) / 2, f32(tx.height) / 2)
 
 	p: ^Pipe = new_clone(
 		Pipe {
@@ -104,7 +102,6 @@ NewPipe :: proc() -> ^Pipe {
 				position = 0,
 				rotation = 0,
 				velocity = 0,
-				collision_shape = col,
 			},
 			texture = tx,
 			upside_down = false,
