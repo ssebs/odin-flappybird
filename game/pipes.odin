@@ -76,7 +76,7 @@ place_pipe_pair :: proc(this: ^PipeSpawner, top, bottom: ^Pipe, x: f32) {
 */
 @(private = "file")
 scroll_pipes :: proc(this: ^PipeSpawner) {
-	dx := GROUND_MOVE_SPEED * rl.GetFrameTime()
+	dx := current_move_speed() * rl.GetFrameTime()
 
 	for pair in 0 ..< PIPE_PAIRS {
 		top, bottom := this.pipes[pair * 2], this.pipes[pair * 2 + 1]

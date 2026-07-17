@@ -72,7 +72,10 @@ exit_game :: proc() {
 */
 update_game :: proc() {
 	if game_state == GameState.STOPPED {
+		// each control only raises the cursor when hovered, so clear it up front
+		rl.SetMouseCursor(rl.MouseCursor.DEFAULT)
 		update_volume_slider(&hud.volume_slider)
+		update_fast_toggle(&hud.fast_toggle)
 
 		if update_play_button(&hud) || rl.IsKeyPressed(rl.KeyboardKey.SPACE) {
 			game_state = GameState.PLAYING

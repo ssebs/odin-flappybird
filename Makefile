@@ -2,7 +2,7 @@ run:
 	odin run .
 
 build-win:
-	odin build . -resource:.\odin-flappybird.rc -out:OdinFlappybird.exe -target:windows_amd64
+	odin build . -resource:.\odin-flappybird.rc -out:OdinFlappybird.exe -target:windows_amd64 -subsystem:windows
 build-mac:
 	odin build . -resource:.\odin-flappybird.rc -out:OdinFlappybird.exe -target:darwin_arm64
 build-lnx:

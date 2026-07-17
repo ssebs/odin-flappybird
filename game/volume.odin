@@ -49,6 +49,9 @@ volume_btn_rect :: proc(i: int) -> rl.Rectangle {
 	}
 }
 
+/*
+* Only sets the cursor when hovered, leaving the reset to the caller.
+*/
 update_volume_slider :: proc(this: ^VolumeSlider) {
 	stops := VOLUME_STOPS
 	mouse := get_mouse_native_pos()
@@ -61,9 +64,9 @@ update_volume_slider :: proc(this: ^VolumeSlider) {
 		}
 	}
 
-	rl.SetMouseCursor(
-		rl.MouseCursor.POINTING_HAND if this.hovered >= 0 else rl.MouseCursor.DEFAULT,
-	)
+	if this.hovered >= 0 {
+		rl.SetMouseCursor(rl.MouseCursor.POINTING_HAND)
+	}
 
 	if this.hovered < 0 || !rl.IsMouseButtonPressed(rl.MouseButton.LEFT) {
 		return

@@ -44,7 +44,7 @@ draw_ground :: proc(this: ^Ground) {
 @(private = "file")
 update_ground :: proc(this: ^Ground) {
 	if game_state == GameState.PLAYING {
-		parallax_it(&ground_pos, f32(this.ground_texture.width), GROUND_MOVE_SPEED)
+		parallax_it(&ground_pos, f32(this.ground_texture.width), current_move_speed())
 	} else {
 		ground_pos = 0
 	}

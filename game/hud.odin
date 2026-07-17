@@ -12,6 +12,7 @@ HUD :: struct #all_or_none {
 	score:             int,
 	high_score:        int,
 	volume_slider:     VolumeSlider,
+	fast_toggle:       FastToggle,
 	play_hovered:      bool,
 }
 
@@ -35,6 +36,7 @@ NewHUD :: proc() -> ^HUD {
 		score = 0,
 		high_score = 0,
 		volume_slider = init_volume_slider(DEFAULT_VOL),
+		fast_toggle = init_fast_toggle(),
 		play_hovered = false,
 	}
 	return h
@@ -59,6 +61,7 @@ draw_hud :: proc(this: ^HUD) {
 		mid_x := f32(WINDOW_SIZE_X) / 2 - f32(this.pregame_texture.width) / 2
 		rl.DrawTextureEx(this.pregame_texture, {mid_x, 88}, 0, 1.0, rl.WHITE)
 		draw_volume_slider(&this.volume_slider)
+		draw_fast_toggle(&this.fast_toggle)
 		draw_play_button(this)
 	}
 }

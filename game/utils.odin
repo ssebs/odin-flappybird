@@ -22,6 +22,36 @@ GameEntity :: struct #all_or_none {
 }
 
 /*
+* How far the difficulty has ramped, in steps, for the current score. Fractional at
+* the top, where the clamp lands mid-step.
+*/
+@(private = "file")
+difficulty_steps :: proc() -> f32 {
+	steps := f32(hud.score / SPEED_STEP_SCORE)
+	if hud.fast_toggle.enabled {
+		steps = f32(hud.score / FAST_SPEED_STEP_SCORE) * FAST_SPEED_STEP_JUMP
+	}
+
+	max_steps := (MAX_MOVE_SPEED - GROUND_MOVE_SPEED) / SPEED_STEP_AMOUNT
+	return min(steps, max_steps)
+}
+
+/*
+* Scroll speed for the current score. Everything that scrolls derives from this
+* so the ground, background and pipes stay in step with each other.
+*/
+current_move_speed :: proc() -> f32 {
+	return GROUND_MOVE_SPEED + difficulty_steps() * SPEED_STEP_AMOUNT
+}
+
+/*
+* Per-frame gravity for the current score, ramping alongside the scroll speed.
+*/
+current_gravity :: proc() -> f32 {
+	return GRAVITY + difficulty_steps() * GRAVITY_STEP_AMOUNT
+}
+
+/*
 * Handle moving a position var & reseting after 1 loop
 */
 parallax_it :: proc(pos_var: ^f32, width: f32, move_speed: f32) {

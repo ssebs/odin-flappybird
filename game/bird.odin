@@ -96,7 +96,7 @@ update_bird :: proc(this: ^Bird) {
 		this.flap_timer = 0
 		rl.PlaySound(this.flap_sound)
 	}
-	this.velocity += GRAVITY
+	this.velocity += current_gravity()
 	this.position.y -= this.velocity * rl.GetFrameTime()
 	this.rotation = bird_rotation(this.velocity)
 	update_flap(this)

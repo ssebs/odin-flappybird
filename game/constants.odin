@@ -14,9 +14,20 @@ SAVE_KEY_VOL: string : "VOL"
 // must be one of VOLUME_STOPS, or load snaps it to the nearest one
 DEFAULT_VOL: f32 : 1.0
 
-GROUND_MOVE_SPEED: f32 : 68.0
+GROUND_MOVE_SPEED: f32 : 88.0
+// difficulty ramps one step every SPEED_STEP_SCORE points: everything that scrolls
+// gains SPEED_STEP_AMOUNT and the bird falls GRAVITY_STEP_AMOUNT harder. both stop
+// ramping once the scroll speed reaches MAX_MOVE_SPEED, at score 105
+SPEED_STEP_SCORE: int : 5
+SPEED_STEP_AMOUNT: f32 : 10.0
+MAX_MOVE_SPEED: f32 : 300.0
 GRAVITY: f32 : -9.8
+GRAVITY_STEP_AMOUNT: f32 : -0.35
 JUMP: f32 : 300.0
+
+// fast mode ramps the same curve on a much shorter score, hitting the cap at score 10
+FAST_SPEED_STEP_SCORE: int : 2
+FAST_SPEED_STEP_JUMP: f32 : 5.0
 
 // bird tilt, mapped from velocity: nose-up at JUMP, level at 0, nose-down at
 // BIRD_ROT_VEL_DOWN. the bird keeps accelerating past that, it just stops tilting
@@ -69,6 +80,15 @@ VOLUME_HANDLE_W: f32 : 6.0
 VOLUME_HANDLE_H: f32 : 16.0
 // invisible, generous hit area around each stop
 VOLUME_BTN_SIZE: f32 : 16.0
+
+// fast mode checkbox, sat under the volume slider in the settings corner. only shown
+// on the pregame screen, so the mode cannot change mid-run
+FAST_LABEL: cstring : "FAST"
+FAST_ROW_Y: f32 : 58.0
+FAST_BOX_X: f32 : 12.0
+FAST_BOX_SIZE: f32 : 12.0
+FAST_BOX_BORDER: f32 : 1.0
+FAST_LABEL_GAP: f32 : 6.0
 
 GameState :: enum {
 	STOPPED,
