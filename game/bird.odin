@@ -9,8 +9,6 @@ JUMP: f32 : 300.0
 @(private = "file")
 starting_pos: rl.Vector2
 @(private = "file")
-ground_height: i32
-@(private = "file")
 was_just_reset := true
 
 Bird :: struct #all_or_none {
@@ -18,11 +16,10 @@ Bird :: struct #all_or_none {
 	texture:           rl.Texture,
 	flap_sound:        rl.Sound,
 	smack_sound:       rl.Sound,
+	reset_proc:        proc(this: ^Bird),
 }
 
-NewBird :: proc(_ground_height: i32) -> ^Bird {
-	ground_height = _ground_height
-
+NewBird :: proc() -> ^Bird {
 	tx := rl.LoadTexture(texture_file_name_map[TextureName.BIRD_DOWNFLAP])
 	starting_pos = rl.Vector2{(WINDOW_SIZE_X / 2) - f32(tx.width) / 2, WINDOW_SIZE_Y / 2}
 
@@ -40,6 +37,7 @@ NewBird :: proc(_ground_height: i32) -> ^Bird {
 		texture = tx,
 		flap_sound = rl.LoadSound(sound_file_name_map[SoundName.WING]),
 		smack_sound = rl.LoadSound(sound_file_name_map[SoundName.HIT]),
+		reset_proc = reset_bird,
 	}
 
 	return b
@@ -57,14 +55,6 @@ draw_bird :: proc(this: ^Bird) {
 }
 
 update_bird :: proc(this: ^Bird) {
-	// Reset if we hit the bottom
-	if this.position.y >= WINDOW_SIZE_Y - f32(ground_height + this.texture.height) {
-		rl.PlaySound(this.smack_sound)
-		reset_bird(this)
-		game_state = GameState.STOPPED
-		return
-	}
-
 	if game_state != GameState.PLAYING {
 		return
 	}
@@ -84,7 +74,6 @@ update_bird :: proc(this: ^Bird) {
 	}
 }
 
-@(private = "file")
 reset_bird :: proc(this: ^Bird) {
 	this.position = starting_pos
 	this.velocity = 0

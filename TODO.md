@@ -1,8 +1,7 @@
 # TODO
 
 ## In Progress
-
-- [ ] create pipe hitboxes
+- [ ] reset pipes on die
 
 ## Backlog
 - [ ] SFX - Hit + Die 
@@ -18,6 +17,8 @@
 - [ ] increase ground move speed over time
 
 ## Done
+- [x] create pipe hitboxes
+
 - [x] create randomly gen'd pipes
 - [x] nested structs
 - [x] background looping doesn't reset

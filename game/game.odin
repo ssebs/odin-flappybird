@@ -1,5 +1,6 @@
 package game
 
+import "core:fmt"
 import rl "vendor:raylib"
 
 score := 0
@@ -14,7 +15,7 @@ whoosh_sound: rl.Sound
 init_game :: proc() {
 	bg = init_background()^
 	ground = init_ground()^
-	player_bird = NewBird(ground.ground_texture.height)^
+	player_bird = NewBird()^
 	pipe_spawner = NewPipeSpawner(ground.ground_texture.height)^
 
 	whoosh_sound = rl.LoadSound(sound_file_name_map[SoundName.SWOOSH])
@@ -41,6 +42,9 @@ update_game :: proc() {
 		pipe_spawner->update_proc()
 		ground->update_proc()
 		player_bird->update_proc()
+
+		check_collisions()
+		check_scoring()
 	}
 }
 
@@ -59,6 +63,50 @@ draw_game :: proc() {
 	pipe_spawner->draw_proc()
 	ground->draw_proc()
 	player_bird->draw_proc()
+}
+
+
+@(private = "file")
+check_collisions :: proc() {
+	// Reset if we hit the bottom
+	if player_bird.position.y >=
+	   WINDOW_SIZE_Y - f32(ground.ground_texture.height + player_bird.texture.height) {
+		rl.PlaySound(player_bird.smack_sound)
+		player_bird->reset_proc()
+
+		// pipes->reset_proc()
+
+		game_state = GameState.STOPPED
+		return
+	}
+
+	// Reset if we hit a pipe
+	for pipe in pipe_spawner.pipes {
+		if player_bird.position.x + f32(player_bird.texture.width) >= pipe.position.x &&
+		   player_bird.position.x <= pipe.position.x + f32(pipe.texture.width) {
+
+			if player_bird.position.y + f32(player_bird.texture.height) <=
+				   pipe.position.y + f32(pipe.texture.height) &&
+			   player_bird.position.y >= pipe.position.y {
+				fmt.println("COLLIDE")
+				rl.PlaySound(player_bird.smack_sound)
+				player_bird->reset_proc()
+
+				// pipes->reset_proc()
+
+				game_state = GameState.STOPPED
+				return
+			}
+		}
+	}
+}
+
+@(private = "file")
+check_scoring :: proc() {
+	// check if we passed a pipe (see check_collisions, but only do X once out of +width)
+
+	// play coin sound
+	// increase score UI
 }
 
 /*
