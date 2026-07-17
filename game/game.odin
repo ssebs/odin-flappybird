@@ -114,7 +114,7 @@ draw_game :: proc() {
 check_collisions :: proc() {
 	// Reset if we hit the bottom
 	if player_bird.position.y >=
-	   WINDOW_SIZE_Y - f32(ground.ground_texture.height + player_bird.texture.height) {
+	   WINDOW_SIZE_Y - (f32(ground.ground_texture.height) + player_bird.size.y) {
 		player_bird.is_falling = false
 		player_die()
 		return
@@ -126,9 +126,9 @@ check_collisions :: proc() {
 
 	// player/bird coords
 	b_left_x := player_bird.position.x
-	b_right_x := player_bird.position.x + f32(player_bird.texture.width)
+	b_right_x := player_bird.position.x + player_bird.size.x
 	b_top_y := player_bird.position.y
-	b_bot_y := player_bird.position.y + f32(player_bird.texture.height)
+	b_bot_y := player_bird.position.y + player_bird.size.y
 
 	// Reset if we hit a pipe
 	for pipe, i in pipe_spawner.pipes {

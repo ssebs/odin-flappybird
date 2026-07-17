@@ -3,12 +3,12 @@
 ## In Progress
 
 ## Backlog
-- [ ] animation on character
-  - [ ] fall rotation
-  - [ ] sprite animation
 - [ ] increase ground move speed over time
 
 ## Done
+- [x] animation on character
+  - [x] fall rotation
+  - [x] sprite animation
 - [x] ui improvements
 - [x] save volume setting to disk
 - [x] save high score to disk

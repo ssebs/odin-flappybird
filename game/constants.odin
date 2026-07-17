@@ -17,6 +17,16 @@ DEFAULT_VOL: f32 : 1.0
 GROUND_MOVE_SPEED: f32 : 68.0
 GRAVITY: f32 : -9.8
 JUMP: f32 : 300.0
+
+// bird tilt, mapped from velocity: nose-up at JUMP, level at 0, nose-down at
+// BIRD_ROT_VEL_DOWN. the bird keeps accelerating past that, it just stops tilting
+BIRD_ROT_UP: f32 : -25.0
+BIRD_ROT_DOWN: f32 : 45.0
+BIRD_ROT_VEL_DOWN: f32 : -300.0
+
+// one wingbeat, played per flap. rests on MID between beats
+BIRD_FLAP_SEQ :: [4]BirdFrame{.MID, .UP, .MID, .DOWN}
+BIRD_FLAP_FRAME_TIME: f32 : 0.12
 PIPE_GAP: f32 : 120.0 // vertical opening the bird flies through
 PIPE_PAIRS :: 2
 
@@ -95,6 +105,18 @@ SoundName :: enum {
 	POINT,
 	SWOOSH,
 	WING,
+}
+
+BirdFrame :: enum {
+	MID,
+	UP,
+	DOWN,
+}
+
+bird_frame_texture_map := [BirdFrame]TextureName {
+	BirdFrame.MID  = TextureName.BIRD_MIDFLAP,
+	BirdFrame.UP   = TextureName.BIRD_UPFLAP,
+	BirdFrame.DOWN = TextureName.BIRD_DOWNFLAP,
 }
 
 // map of texture name to rel file path from root of proj
