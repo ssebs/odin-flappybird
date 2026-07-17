@@ -7,6 +7,9 @@ GAME_NAME_C: cstring : "Odin Flappybird"
 
 GROUND_MOVE_SPEED: f32 : 68.0
 
+PIPE_GAP: f32 : 100.0 // vertical opening the bird flies through
+PIPE_PAIRS :: 2
+
 GameState :: enum {
 	STOPPED,
 	PLAYING,

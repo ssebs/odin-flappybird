@@ -15,7 +15,7 @@ init_game :: proc() {
 	bg = init_background()^
 	ground = init_ground()^
 	player_bird = NewBird(ground.ground_texture.height)^
-	pipe_spawner = NewPipeSpawner()^
+	pipe_spawner = NewPipeSpawner(ground.ground_texture.height)^
 
 	whoosh_sound = rl.LoadSound(sound_file_name_map[SoundName.SWOOSH])
 	rl.PlaySound(whoosh_sound)
@@ -33,7 +33,7 @@ exit_game :: proc() {
 */
 update_game :: proc() {
 	if game_state == GameState.STOPPED {
-		if rl.IsKeyPressed(rl.KeyboardKey.SPACE) {
+		if rl.IsKeyPressed(rl.KeyboardKey.SPACE) || rl.IsMouseButtonPressed(rl.MouseButton.LEFT) {
 			game_state = GameState.PLAYING
 		}
 	} else if game_state == GameState.PLAYING {

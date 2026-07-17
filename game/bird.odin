@@ -73,7 +73,9 @@ update_bird :: proc(this: ^Bird) {
 	}
 
 	// if player has input, apply -gravity
-	if rl.IsKeyPressed(rl.KeyboardKey.SPACE) || was_just_reset {
+	if rl.IsKeyPressed(rl.KeyboardKey.SPACE) ||
+	   rl.IsMouseButtonPressed(rl.MouseButton.LEFT) ||
+	   was_just_reset {
 		this.velocity = JUMP
 		rl.PlaySound(this.flap_sound)
 	}

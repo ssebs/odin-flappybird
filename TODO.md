@@ -1,7 +1,7 @@
 # TODO
 
 ## In Progress
-- [ ] create randomly gen'd pipes
+
 - [ ] create pipe hitboxes
 
 ## Backlog
@@ -15,8 +15,10 @@
 - [ ] add reset / start / end screen
 - [ ] save high score to disk
 - [ ] save volume setting to disk
+- [ ] increase ground move speed over time
 
 ## Done
+- [x] create randomly gen'd pipes
 - [x] nested structs
 - [x] background looping doesn't reset
 - [x] SFX - Flap

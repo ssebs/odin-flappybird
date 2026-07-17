@@ -1,60 +1,45 @@
 package game
 
-import "core:fmt"
 import "core:math/rand"
 import b2 "vendor:box2d"
 import rl "vendor:raylib"
 
 PipeSpawner :: struct #all_or_none {
 	using game_object: GameObject,
-	pipes:             [4]^Pipe,
+	pipes:             [PIPE_PAIRS * 2]^Pipe,
+	ground_height:     f32,
 }
 
-NewPipeSpawner :: proc() -> ^PipeSpawner {
+NewPipeSpawner :: proc(_ground_height: i32) -> ^PipeSpawner {
 	ps: ^PipeSpawner = &PipeSpawner {
 		game_object = GameObject {
 			exit_proc = exit_pipespawner,
 			update_proc = update_pipespawner,
 			draw_proc = draw_pipespawner,
 		},
-		pipes = [4]^Pipe{NewPipe(), NewPipe(), NewPipe(), NewPipe()},
+		pipes = [PIPE_PAIRS * 2]^Pipe{NewPipe(), NewPipe(), NewPipe(), NewPipe()},
+		ground_height = f32(_ground_height),
+	}
+
+	// stagger the pairs evenly over the distance a pair travels before it wraps
+	spacing := (WINDOW_SIZE_X + f32(ps.pipes[0].texture.width)) / PIPE_PAIRS
+	for pair in 0 ..< PIPE_PAIRS {
+		top, bottom := ps.pipes[pair * 2], ps.pipes[pair * 2 + 1]
+		top.upside_down = true
+		place_pipe_pair(ps, top, bottom, WINDOW_SIZE_X + f32(pair) * spacing)
 	}
 	return ps
 }
 exit_pipespawner :: proc(this: ^PipeSpawner) {
 	for pipe in this.pipes {
 		pipe->exit_proc()
-		free(this.pipes[0])
+		free(pipe)
 	}
 }
 
-rename_me :: proc(pipes: [4]^Pipe) {
-
-	offset_range: f32 = 20.0
-
-	for i := 0; i < len(pipes); i += 1 {
-
-		pipes[i].position.x -= GROUND_MOVE_SPEED * 0.5 * rl.GetFrameTime()
-		if pipes[i].position.x <= 0 {
-			pipes[i].upside_down = (i % 2 == 0) ? true : false
-
-			pipes[i].position.x = WINDOW_SIZE_X
-			if i % 2 == 0 {
-				pipes[i].position.y = (0 + rand.float32_range(-offset_range, offset_range))
-			} else {
-				pipes[i].position.y =
-					(WINDOW_SIZE_Y + rand.float32_range(-offset_range, offset_range))
-
-			}
-			if i >= 2 {
-				pipes[i].position.x += f32(pipes[i].texture.width) * 3
-			}
-		}
-	}
-}
 
 update_pipespawner :: proc(this: ^PipeSpawner) {
-	rename_me(this.pipes)
+	scroll_pipes(this)
 
 	for pipe in this.pipes {
 		pipe->update_proc()
@@ -66,6 +51,33 @@ draw_pipespawner :: proc(this: ^PipeSpawner) {
 	}
 }
 
+/*
+* Put a pair at x with a fresh gap, kept fully on screen and above the ground
+*/
+@(private = "file")
+place_pipe_pair :: proc(this: ^PipeSpawner, top, bottom: ^Pipe, x: f32) {
+	gap_center := rand.float32_range(PIPE_GAP, WINDOW_SIZE_Y - this.ground_height - PIPE_GAP)
+	top.position = {x, gap_center - PIPE_GAP / 2 - f32(top.texture.height)}
+	bottom.position = {x, gap_center + PIPE_GAP / 2}
+}
+
+/*
+* Scroll each pair left, recycling it off the right edge once fully off screen
+*/
+@(private = "file")
+scroll_pipes :: proc(this: ^PipeSpawner) {
+	dx := GROUND_MOVE_SPEED * rl.GetFrameTime()
+
+	for pair in 0 ..< PIPE_PAIRS {
+		top, bottom := this.pipes[pair * 2], this.pipes[pair * 2 + 1]
+		top.position.x -= dx
+		bottom.position.x -= dx
+
+		if top.position.x <= -f32(top.texture.width) {
+			place_pipe_pair(this, top, bottom, WINDOW_SIZE_X)
+		}
+	}
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -106,7 +118,12 @@ exit_pipe :: proc(this: ^Pipe) {
 }
 
 draw_pipe :: proc(this: ^Pipe) {
-	rl.DrawTextureEx(this.texture, this.position, this.upside_down ? 0 : 180, 1.0, rl.WHITE)
+	src := rl.Rectangle{0, 0, f32(this.texture.width), f32(this.texture.height)}
+	if this.upside_down {
+		// negative height flips the sprite, keeping position as its top-left corner
+		src.height = -src.height
+	}
+	rl.DrawTextureRec(this.texture, src, this.position, rl.WHITE)
 }
 update_pipe :: proc(this: ^Pipe) {
 
