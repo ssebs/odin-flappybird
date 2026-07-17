@@ -80,14 +80,25 @@ check_collisions :: proc() {
 		return
 	}
 
+	// player/bird coords
+	b_left_x := player_bird.position.x
+	b_right_x := player_bird.position.x + f32(player_bird.texture.width)
+	b_top_y := player_bird.position.y
+	b_bot_y := player_bird.position.y + f32(player_bird.texture.height)
+
 	// Reset if we hit a pipe
 	for pipe in pipe_spawner.pipes {
-		if player_bird.position.x + f32(player_bird.texture.width) >= pipe.position.x &&
-		   player_bird.position.x <= pipe.position.x + f32(pipe.texture.width) {
+		// pipe coords
+		p_left_x := pipe.position.x
+		p_right_x := pipe.position.x + f32(pipe.texture.width)
+		p_top_y := pipe.position.y
+		p_bot_y := pipe.position.y + f32(pipe.texture.height)
 
-			if player_bird.position.y + f32(player_bird.texture.height) <=
-				   pipe.position.y + f32(pipe.texture.height) &&
-			   player_bird.position.y >= pipe.position.y {
+		// In pipe horizontally
+		if b_right_x >= p_left_x && b_left_x <= p_right_x {
+
+			// In pipe vertically
+			if b_top_y <= p_bot_y && b_bot_y >= p_top_y {
 				fmt.println("COLLIDE")
 				rl.PlaySound(player_bird.smack_sound)
 				player_bird->reset_proc()
@@ -97,6 +108,7 @@ check_collisions :: proc() {
 				game_state = GameState.STOPPED
 				return
 			}
+
 		}
 	}
 }
@@ -104,6 +116,7 @@ check_collisions :: proc() {
 @(private = "file")
 check_scoring :: proc() {
 	// check if we passed a pipe (see check_collisions, but only do X once out of +width)
+
 
 	// play coin sound
 	// increase score UI
