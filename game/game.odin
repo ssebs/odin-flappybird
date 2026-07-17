@@ -11,6 +11,8 @@ ground: Ground
 pipe_spawner: PipeSpawner
 hud: HUD
 
+master_volume: f32 = DEFAULT_VOL
+
 smack_sound: rl.Sound
 fall_sound: rl.Sound
 whoosh_sound: rl.Sound
@@ -28,9 +30,29 @@ init_game :: proc() {
 	fall_sound = rl.LoadSound(sound_file_name_map[SoundName.DIE])
 	smack_sound = rl.LoadSound(sound_file_name_map[SoundName.HIT])
 
-	load_savegame()
+	save := load_savegame()
+	hud.high_score = save.score
+
+	// a hand-edited VOL may sit between stops, so play back the snapped value
+	hud.volume_slider = init_volume_slider(save.vol)
+	stops := VOLUME_STOPS
+	apply_master_volume(stops[hud.volume_slider.stop])
 
 	rl.PlaySound(whoosh_sound)
+}
+
+@(private = "file")
+apply_master_volume :: proc(vol: f32) {
+	master_volume = vol
+	rl.SetMasterVolume(master_volume)
+}
+
+/*
+* Applies vol to the audio device and persists it.
+*/
+set_master_volume :: proc(vol: f32) {
+	apply_master_volume(vol)
+	save_savegame(hud.high_score, master_volume)
 }
 exit_game :: proc() {
 	rl.UnloadSound(whoosh_sound)
@@ -50,10 +72,15 @@ exit_game :: proc() {
 */
 update_game :: proc() {
 	if game_state == GameState.STOPPED {
-		if rl.IsKeyPressed(rl.KeyboardKey.SPACE) || rl.IsMouseButtonPressed(rl.MouseButton.LEFT) {
+		update_volume_slider(&hud.volume_slider)
+
+		if update_play_button(&hud) || rl.IsKeyPressed(rl.KeyboardKey.SPACE) {
 			game_state = GameState.PLAYING
 		}
 	} else {
+		// the whole play area is clickable to flap
+		rl.SetMouseCursor(rl.MouseCursor.POINTING_HAND)
+
 		bg->update_proc()
 		pipe_spawner->update_proc()
 		ground->update_proc()
@@ -152,6 +179,8 @@ player_die :: proc() {
 	}
 
 	fmt.println("Die!")
+
+	hud.score = 0
 	player_bird->reset_proc()
 	pipe_spawner->reset_proc()
 	game_state = GameState.STOPPED
@@ -159,9 +188,13 @@ player_die :: proc() {
 @(private = "file")
 player_score :: proc() {
 	hud.score += 1
+	if hud.score > hud.high_score {
+		hud.high_score = hud.score
+		save_savegame(hud.high_score, master_volume)
+	}
 	fmt.println("Scored! - ", hud.score)
 	rl.PlaySound(money_sound)
-	// increase score UI
+
 }
 
 /*
@@ -170,18 +203,32 @@ player_score :: proc() {
 * NOTE - this func was written by claude.
 */
 @(private = "file")
-begin_scaled_view :: proc() {
+scaled_camera :: proc() -> rl.Camera2D {
 	w, h := f32(rl.GetScreenWidth()), f32(rl.GetScreenHeight())
 	zoom := min(w / WINDOW_SIZE_X, h / WINDOW_SIZE_Y)
 	offset := rl.Vector2{(w - WINDOW_SIZE_X * zoom) * 0.5, (h - WINDOW_SIZE_Y * zoom) * 0.5}
+	return rl.Camera2D{zoom = zoom, offset = offset}
+}
+
+/*
+* Mouse position in native game coords. Hit testing must use this rather than
+* rl.GetMousePosition(), which is in unscaled window coords.
+*/
+get_mouse_native_pos :: proc() -> rl.Vector2 {
+	return rl.GetScreenToWorld2D(rl.GetMousePosition(), scaled_camera())
+}
+
+@(private = "file")
+begin_scaled_view :: proc() {
+	cam := scaled_camera()
 
 	rl.BeginScissorMode(
-		i32(offset.x),
-		i32(offset.y),
-		i32(WINDOW_SIZE_X * zoom),
-		i32(WINDOW_SIZE_Y * zoom),
+		i32(cam.offset.x),
+		i32(cam.offset.y),
+		i32(WINDOW_SIZE_X * cam.zoom),
+		i32(WINDOW_SIZE_Y * cam.zoom),
 	)
-	rl.BeginMode2D(rl.Camera2D{zoom = zoom, offset = offset})
+	rl.BeginMode2D(cam)
 }
 /*
 * NOTE - this func was written by claude

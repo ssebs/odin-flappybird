@@ -1,16 +1,17 @@
 # TODO
 
 ## In Progress
-- [ ] save high score to disk
 
 ## Backlog
 - [ ] animation on character
   - [ ] fall rotation
   - [ ] sprite animation
-- [ ] save volume setting to disk
 - [ ] increase ground move speed over time
 
 ## Done
+- [x] ui improvements
+- [x] save volume setting to disk
+- [x] save high score to disk
 - [x] add reset / start / end screen
 - [x] add UI to show score
 - [x] SFX - Point

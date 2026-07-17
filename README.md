@@ -24,6 +24,11 @@ Flappybird written in Odin + Raylib
   - `make build-[platform]`
   - > See [Makefile](./Makefile)
 
+## SaveGame
+The high score & volume setting is saved at:
+- Windows: `%localappdata%\odin-flappybird-save.ini`
+- [Other platforms look here](https://pkg.odin-lang.org/core/os/#user_data_dir)
+
 ## LICENSE
 - This repo / game [Apache 2.0](./LICENSE)
 - The assets: https://github.com/samuelcust/flappy-bird-assets
