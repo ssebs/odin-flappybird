@@ -11,6 +11,8 @@ JUMP: f32 : 300.0
 PIPE_GAP: f32 : 120.0 // vertical opening the bird flies through
 PIPE_PAIRS :: 2
 
+FONT_FILENAME: cstring = "./assets/flappy-bird-font.otf"
+
 GameState :: enum {
 	STOPPED,
 	PLAYING,

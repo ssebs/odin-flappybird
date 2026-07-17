@@ -22,15 +22,16 @@ init_background :: proc() -> ^Background {
 	}
 	return b
 }
+@(private = "file")
 exit_background :: proc(this: ^Background) {
 	rl.UnloadTexture(this.bg_texture)
 }
-
+@(private = "file")
 draw_background :: proc(this: ^Background) {
 	rl.DrawTexture(this.bg_texture, i32(bg_pos), 0, rl.WHITE)
 	rl.DrawTexture(this.bg_texture, i32(i32(WINDOW_SIZE_X + bg_pos)), 0, rl.WHITE)
 }
-
+@(private = "file")
 update_background :: proc(this: ^Background) {
 	if game_state == GameState.DYING {
 		return

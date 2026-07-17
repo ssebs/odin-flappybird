@@ -25,14 +25,14 @@ NewPipeSpawner :: proc(_ground_height: i32) -> ^PipeSpawner {
 
 	return ps
 }
+@(private = "file")
 exit_pipespawner :: proc(this: ^PipeSpawner) {
 	for pipe in this.pipes {
 		pipe->exit_proc()
 		free(pipe)
 	}
 }
-
-
+@(private = "file")
 update_pipespawner :: proc(this: ^PipeSpawner) {
 	if game_state == GameState.DYING {
 		return
@@ -43,12 +43,13 @@ update_pipespawner :: proc(this: ^PipeSpawner) {
 		pipe->update_proc()
 	}
 }
+@(private = "file")
 draw_pipespawner :: proc(this: ^PipeSpawner) {
 	for pipe in this.pipes {
 		pipe->draw_proc()
 	}
 }
-
+@(private = "file")
 reset_pipespawner :: proc(this: ^PipeSpawner) {
 	// stagger the pairs evenly over the distance a pair travels before it wraps
 	spacing := (WINDOW_SIZE_X + f32(this.pipes[0].texture.width)) / PIPE_PAIRS
@@ -121,11 +122,11 @@ NewPipe :: proc() -> ^Pipe {
 	)
 	return p
 }
-
+@(private = "file")
 exit_pipe :: proc(this: ^Pipe) {
 	rl.UnloadTexture(this.texture)
 }
-
+@(private = "file")
 draw_pipe :: proc(this: ^Pipe) {
 	src := rl.Rectangle{0, 0, f32(this.texture.width), f32(this.texture.height)}
 	if this.upside_down {
@@ -134,6 +135,5 @@ draw_pipe :: proc(this: ^Pipe) {
 	}
 	rl.DrawTextureRec(this.texture, src, this.position, rl.WHITE)
 }
-update_pipe :: proc(this: ^Pipe) {
-
-}
+@(private = "file")
+update_pipe :: proc(this: ^Pipe) {}

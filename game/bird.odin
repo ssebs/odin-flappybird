@@ -40,17 +40,17 @@ NewBird :: proc() -> ^Bird {
 
 	return b
 }
+@(private = "file")
 exit_bird :: proc(this: ^Bird) {
 	rl.UnloadSound(this.flap_sound)
 	rl.UnloadTexture(this.texture)
 }
-
-
+@(private = "file")
 draw_bird :: proc(this: ^Bird) {
 	// TODO: animate w/ sprite sheet
 	rl.DrawTextureEx(this.texture, this.position, this.rotation, 1.0, rl.WHITE)
 }
-
+@(private = "file")
 update_bird :: proc(this: ^Bird) {
 	if game_state == GameState.STOPPED {
 		return
@@ -73,7 +73,7 @@ update_bird :: proc(this: ^Bird) {
 		was_just_reset = false
 	}
 }
-
+@(private = "file")
 reset_bird :: proc(this: ^Bird) {
 	this.position = starting_pos
 	this.velocity = 0

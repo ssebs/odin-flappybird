@@ -6,10 +6,11 @@ import rl "vendor:raylib"
 game_state: GameState = GameState.STOPPED
 
 player_bird: Bird
-score: int
 bg: Background
 ground: Ground
 pipe_spawner: PipeSpawner
+hud: HUD
+
 smack_sound: rl.Sound
 fall_sound: rl.Sound
 whoosh_sound: rl.Sound
@@ -20,6 +21,7 @@ init_game :: proc() {
 	ground = init_ground()^
 	player_bird = NewBird()^
 	pipe_spawner = NewPipeSpawner(ground.ground_texture.height)^
+	hud = NewHUD()^
 
 	money_sound = rl.LoadSound(sound_file_name_map[SoundName.POINT])
 	whoosh_sound = rl.LoadSound(sound_file_name_map[SoundName.SWOOSH])
@@ -33,10 +35,11 @@ exit_game :: proc() {
 	rl.UnloadSound(fall_sound)
 	rl.UnloadSound(smack_sound)
 
-	exit_bird(&player_bird)
-	exit_background(&bg)
-	exit_ground(&ground)
-	exit_pipespawner(&pipe_spawner)
+	player_bird->exit_proc()
+	bg->exit_proc()
+	pipe_spawner->exit_proc()
+	ground->exit_proc()
+	hud->exit_proc()
 }
 
 /*
@@ -55,6 +58,7 @@ update_game :: proc() {
 
 		check_collisions()
 	}
+	hud->update_proc()
 }
 
 /*
@@ -72,6 +76,7 @@ draw_game :: proc() {
 	pipe_spawner->draw_proc()
 	ground->draw_proc()
 	player_bird->draw_proc()
+	hud->draw_proc()
 }
 
 
@@ -147,8 +152,8 @@ player_die :: proc() {
 }
 @(private = "file")
 player_score :: proc() {
-	score += 1
-	fmt.println("Scored! - ", score)
+	hud.score += 1
+	fmt.println("Scored! - ", hud.score)
 	rl.PlaySound(money_sound)
 	// increase score UI
 }

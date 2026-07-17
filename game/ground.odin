@@ -22,10 +22,11 @@ init_ground :: proc() -> ^Ground {
 	}
 	return g
 }
+@(private = "file")
 exit_ground :: proc(this: ^Ground) {
 	rl.UnloadTexture(this.ground_texture)
 }
-
+@(private = "file")
 draw_ground :: proc(this: ^Ground) {
 	rl.DrawTexture(
 		this.ground_texture,
@@ -40,7 +41,7 @@ draw_ground :: proc(this: ^Ground) {
 		rl.WHITE,
 	)
 }
-
+@(private = "file")
 update_ground :: proc(this: ^Ground) {
 	if game_state == GameState.PLAYING {
 		parallax_it(&ground_pos, f32(this.ground_texture.width), GROUND_MOVE_SPEED)
