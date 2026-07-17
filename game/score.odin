@@ -15,9 +15,7 @@ ScoreDisplay :: struct {
 init_score_display :: proc() -> ScoreDisplay {
 	s: ScoreDisplay
 	for i in 0 ..< 10 {
-		s.digit_textures[i] = rl.LoadTexture(
-			texture_file_name_map[TextureName(int(TextureName.DIGIT_0) + i)],
-		)
+		s.digit_textures[i] = load_texture(TextureName(int(TextureName.DIGIT_0) + i))
 	}
 	return s
 }

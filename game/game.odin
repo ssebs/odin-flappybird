@@ -25,10 +25,10 @@ init_game :: proc() {
 	pipe_spawner = NewPipeSpawner(ground.ground_texture.height)^
 	hud = NewHUD()^
 
-	money_sound = rl.LoadSound(sound_file_name_map[SoundName.POINT])
-	whoosh_sound = rl.LoadSound(sound_file_name_map[SoundName.SWOOSH])
-	fall_sound = rl.LoadSound(sound_file_name_map[SoundName.DIE])
-	smack_sound = rl.LoadSound(sound_file_name_map[SoundName.HIT])
+	money_sound = load_sound(SoundName.POINT)
+	whoosh_sound = load_sound(SoundName.SWOOSH)
+	fall_sound = load_sound(SoundName.DIE)
+	smack_sound = load_sound(SoundName.HIT)
 
 	save := load_savegame()
 	hud.high_score = save.score

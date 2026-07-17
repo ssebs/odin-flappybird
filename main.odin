@@ -28,6 +28,7 @@ create_window :: proc() {
 	rl.InitWindow(i32(game.WINDOW_SIZE_X), i32(game.WINDOW_SIZE_Y), game.GAME_NAME_C)
 	rl.SetTargetFPS(60)
 
-	icon_img := rl.LoadImage(game.texture_file_name_map[game.TextureName.ICON])
+	icon_img := game.load_icon_image()
+	defer rl.UnloadImage(icon_img)
 	rl.SetWindowIcon(icon_img)
 }

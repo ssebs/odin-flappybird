@@ -1,4 +1,3 @@
-#+feature dynamic-literals
 package game
 
 import rl "vendor:raylib"
@@ -43,7 +42,6 @@ PIPE_PAIRS :: 2
 SCORE_TOP_Y: i32 : 20
 SCORE_DIGIT_SPACING: f32 : 1.0
 
-HUD_FONT_FILE: cstring : "./assets/FlappyBirdRegular.ttf"
 HUD_FONT_SIZE: f32 : 24.0
 HUD_FONT_SPACING: f32 : 1.0
 // the dark outline the sprites are drawn with, reused so HUD chrome matches
@@ -138,34 +136,4 @@ bird_frame_texture_map := [BirdFrame]TextureName {
 	BirdFrame.DOWN = TextureName.BIRD_DOWNFLAP,
 }
 
-// map of texture name to rel file path from root of proj
-texture_file_name_map := map[TextureName]cstring {
-	TextureName.BG_DAY        = "./assets/sprites/background-day.png",
-	TextureName.BASE          = "./assets/sprites/base.png",
-	TextureName.PIPE          = "./assets/sprites/pipe-green.png",
-	TextureName.BIRD_DOWNFLAP = "./assets/sprites/yellowbird-downflap.png",
-	TextureName.BIRD_MIDFLAP  = "./assets/sprites/yellowbird-midflap.png",
-	TextureName.BIRD_UPFLAP   = "./assets/sprites/yellowbird-upflap.png",
-	TextureName.ICON          = "./assets/favicon.png",
-	TextureName.GAMEOVER      = "./assets/sprites/gameover.png",
-	TextureName.PREGAME       = "./assets/sprites/message.png",
-	TextureName.DIGIT_0       = "./assets/sprites/0.png",
-	TextureName.DIGIT_1       = "./assets/sprites/1.png",
-	TextureName.DIGIT_2       = "./assets/sprites/2.png",
-	TextureName.DIGIT_3       = "./assets/sprites/3.png",
-	TextureName.DIGIT_4       = "./assets/sprites/4.png",
-	TextureName.DIGIT_5       = "./assets/sprites/5.png",
-	TextureName.DIGIT_6       = "./assets/sprites/6.png",
-	TextureName.DIGIT_7       = "./assets/sprites/7.png",
-	TextureName.DIGIT_8       = "./assets/sprites/8.png",
-	TextureName.DIGIT_9       = "./assets/sprites/9.png",
-}
-
-// map of sound name to rel file path from root of proj
-sound_file_name_map := map[SoundName]cstring {
-	SoundName.DIE    = "./assets/audio/die.ogg",
-	SoundName.HIT    = "./assets/audio/hit.ogg",
-	SoundName.POINT  = "./assets/audio/point.ogg",
-	SoundName.SWOOSH = "./assets/audio/swoosh.ogg",
-	SoundName.WING   = "./assets/audio/wing.ogg",
-}
+// the files these names resolve to are embedded in assets.odin

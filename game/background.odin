@@ -10,7 +10,7 @@ Background :: struct #all_or_none {
 }
 
 init_background :: proc() -> ^Background {
-	bg_tx := rl.LoadTexture(texture_file_name_map[TextureName.BG_DAY])
+	bg_tx := load_texture(TextureName.BG_DAY)
 
 	b: ^Background = &Background {
 		game_object = GameObject {

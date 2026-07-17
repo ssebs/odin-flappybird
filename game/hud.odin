@@ -17,12 +17,10 @@ HUD :: struct #all_or_none {
 }
 
 NewHUD :: proc() -> ^HUD {
-	gameover_tx := rl.LoadTexture(texture_file_name_map[TextureName.GAMEOVER])
-	pregame_tx := rl.LoadTexture(texture_file_name_map[TextureName.PREGAME])
+	gameover_tx := load_texture(TextureName.GAMEOVER)
+	pregame_tx := load_texture(TextureName.PREGAME)
 
-	// loaded at its render size, point filtered, so the pixel font stays sharp
-	hud_font = rl.LoadFontEx(HUD_FONT_FILE, i32(HUD_FONT_SIZE), nil, 0)
-	rl.SetTextureFilter(hud_font.texture, rl.TextureFilter.POINT)
+	hud_font = load_hud_font()
 
 	h: ^HUD = &HUD {
 		game_object = GameObject {

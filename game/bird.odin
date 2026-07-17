@@ -23,7 +23,7 @@ Bird :: struct #all_or_none {
 NewBird :: proc() -> ^Bird {
 	txs: [BirdFrame]rl.Texture
 	for name, frame in bird_frame_texture_map {
-		txs[frame] = rl.LoadTexture(texture_file_name_map[name])
+		txs[frame] = load_texture(name)
 	}
 
 	size := rl.Vector2{f32(txs[BirdFrame.MID].width), f32(txs[BirdFrame.MID].height)}
@@ -44,7 +44,7 @@ NewBird :: proc() -> ^Bird {
 		size = size,
 		flap_frame = -1,
 		flap_timer = 0,
-		flap_sound = rl.LoadSound(sound_file_name_map[SoundName.WING]),
+		flap_sound = load_sound(SoundName.WING),
 		reset_proc = reset_bird,
 		is_falling = false,
 	}

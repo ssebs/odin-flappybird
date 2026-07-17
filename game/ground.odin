@@ -10,7 +10,7 @@ Ground :: struct #all_or_none {
 }
 
 init_ground :: proc() -> ^Ground {
-	ground_tx := rl.LoadTexture(texture_file_name_map[TextureName.BASE])
+	ground_tx := load_texture(TextureName.BASE)
 
 	g: ^Ground = &Ground {
 		game_object = GameObject {

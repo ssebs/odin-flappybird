@@ -101,7 +101,7 @@ Pipe :: struct #all_or_none {
 }
 
 NewPipe :: proc() -> ^Pipe {
-	tx := rl.LoadTexture(texture_file_name_map[TextureName.PIPE])
+	tx := load_texture(TextureName.PIPE)
 
 	p: ^Pipe = new_clone(
 		Pipe {
