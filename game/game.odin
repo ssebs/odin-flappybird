@@ -101,7 +101,7 @@ check_collisions :: proc() {
 	b_bot_y := player_bird.position.y + f32(player_bird.texture.height)
 
 	// Reset if we hit a pipe
-	for pipe in pipe_spawner.pipes {
+	for pipe, i in pipe_spawner.pipes {
 		// pipe coords
 		p_left_x := pipe.position.x
 		p_right_x := pipe.position.x + f32(pipe.texture.width)
@@ -122,7 +122,11 @@ check_collisions :: proc() {
 
 		// Check if we passed a pipe
 		if p_right_x <= b_left_x && !pipe.scored {
-			pipe.scored = true
+			// pipes are stored as pairs (top at pair*2, bottom at pair*2+1) sharing
+			// an x, so score this one's partner too or it scores again next frame
+			partner := i + 1 if i % 2 == 0 else i - 1
+			pipe_spawner.pipes[i].scored = true
+			pipe_spawner.pipes[partner].scored = true
 			player_score()
 			return
 		}

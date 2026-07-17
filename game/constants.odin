@@ -11,7 +11,8 @@ JUMP: f32 : 300.0
 PIPE_GAP: f32 : 120.0 // vertical opening the bird flies through
 PIPE_PAIRS :: 2
 
-FONT_FILENAME: cstring = "./assets/flappy-bird-font.otf"
+SCORE_TOP_Y: i32 : 20
+SCORE_DIGIT_SPACING: f32 : 1.0
 
 GameState :: enum {
 	STOPPED,
@@ -28,6 +29,17 @@ TextureName :: enum {
 	BIRD_MIDFLAP,
 	BIRD_UPFLAP,
 	ICON,
+	// digits must stay contiguous, draw_score indexes them by offset
+	DIGIT_0,
+	DIGIT_1,
+	DIGIT_2,
+	DIGIT_3,
+	DIGIT_4,
+	DIGIT_5,
+	DIGIT_6,
+	DIGIT_7,
+	DIGIT_8,
+	DIGIT_9,
 }
 SoundName :: enum {
 	DIE,
@@ -46,6 +58,16 @@ texture_file_name_map := map[TextureName]cstring {
 	TextureName.BIRD_MIDFLAP  = "./assets/sprites/yellowbird-midflap.png",
 	TextureName.BIRD_UPFLAP   = "./assets/sprites/yellowbird-upflap.png",
 	TextureName.ICON          = "./assets/favicon.png",
+	TextureName.DIGIT_0       = "./assets/sprites/0.png",
+	TextureName.DIGIT_1       = "./assets/sprites/1.png",
+	TextureName.DIGIT_2       = "./assets/sprites/2.png",
+	TextureName.DIGIT_3       = "./assets/sprites/3.png",
+	TextureName.DIGIT_4       = "./assets/sprites/4.png",
+	TextureName.DIGIT_5       = "./assets/sprites/5.png",
+	TextureName.DIGIT_6       = "./assets/sprites/6.png",
+	TextureName.DIGIT_7       = "./assets/sprites/7.png",
+	TextureName.DIGIT_8       = "./assets/sprites/8.png",
+	TextureName.DIGIT_9       = "./assets/sprites/9.png",
 }
 
 // map of sound name to rel file path from root of proj

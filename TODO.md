@@ -6,13 +6,14 @@
 - [ ] animation on character
   - [ ] fall rotation
   - [ ] sprite animation
-- [ ] add UI to show score
 - [ ] add reset / start / end screen
 - [ ] save high score to disk
 - [ ] save volume setting to disk
 - [ ] increase ground move speed over time
 
 ## Done
+- [x] add UI to show score
+
 - [x] SFX - Point
 - [x] SFX - Hit + Die 
 - [x] reset pipes on die
