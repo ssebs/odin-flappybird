@@ -9,7 +9,6 @@
 - [ ] animation on character
   - [ ] fall rotation
   - [ ] sprite animation
-- [ ] Scoring
 - [ ] add UI to show score
 - [ ] add reset / start / end screen
 - [ ] save high score to disk
@@ -17,8 +16,8 @@
 - [ ] increase ground move speed over time
 
 ## Done
+- [x] Scoring
 - [x] create pipe hitboxes
-
 - [x] create randomly gen'd pipes
 - [x] nested structs
 - [x] background looping doesn't reset

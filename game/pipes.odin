@@ -58,6 +58,8 @@ place_pipe_pair :: proc(this: ^PipeSpawner, top, bottom: ^Pipe, x: f32) {
 	gap_center := rand.float32_range(PIPE_GAP, WINDOW_SIZE_Y - this.ground_height - PIPE_GAP)
 	top.position = {x, gap_center - PIPE_GAP / 2 - f32(top.texture.height)}
 	bottom.position = {x, gap_center + PIPE_GAP / 2}
+	top.scored = false
+	bottom.scored = false
 }
 
 /*
@@ -86,6 +88,7 @@ Pipe :: struct #all_or_none {
 	using game_entity: GameEntity,
 	texture:           rl.Texture,
 	upside_down:       bool,
+	scored:            bool,
 }
 
 NewPipe :: proc() -> ^Pipe {
@@ -105,6 +108,7 @@ NewPipe :: proc() -> ^Pipe {
 			},
 			texture = tx,
 			upside_down = false,
+			scored = false,
 		},
 	)
 	return p

@@ -3,7 +3,7 @@ package game
 import "core:fmt"
 import rl "vendor:raylib"
 
-score := 0
+score: int
 game_state: GameState = GameState.STOPPED
 
 player_bird: Bird
@@ -11,6 +11,7 @@ bg: Background
 ground: Ground
 pipe_spawner: PipeSpawner
 whoosh_sound: rl.Sound
+money_sound: rl.Sound
 
 init_game :: proc() {
 	bg = init_background()^
@@ -18,11 +19,13 @@ init_game :: proc() {
 	player_bird = NewBird()^
 	pipe_spawner = NewPipeSpawner(ground.ground_texture.height)^
 
+	money_sound = rl.LoadSound(sound_file_name_map[SoundName.POINT])
 	whoosh_sound = rl.LoadSound(sound_file_name_map[SoundName.SWOOSH])
 	rl.PlaySound(whoosh_sound)
 }
 exit_game :: proc() {
 	rl.UnloadSound(whoosh_sound)
+	rl.UnloadSound(money_sound)
 	exit_bird(&player_bird)
 	exit_background(&bg)
 	exit_ground(&ground)
@@ -44,7 +47,6 @@ update_game :: proc() {
 		player_bird->update_proc()
 
 		check_collisions()
-		check_scoring()
 	}
 }
 
@@ -110,17 +112,17 @@ check_collisions :: proc() {
 			}
 
 		}
+
+		// Check if we passed a pipe
+		if p_right_x <= b_left_x && !pipe.scored {
+			pipe.scored = true
+			score += 1
+			rl.PlaySound(money_sound)
+			// increase score UI
+		}
 	}
 }
 
-@(private = "file")
-check_scoring :: proc() {
-	// check if we passed a pipe (see check_collisions, but only do X once out of +width)
-
-
-	// play coin sound
-	// increase score UI
-}
 
 /*
 * Scales the native-resolution content to fit the window, keeping aspect ratio
