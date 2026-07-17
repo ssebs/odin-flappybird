@@ -27,6 +27,9 @@ init_game :: proc() {
 	whoosh_sound = rl.LoadSound(sound_file_name_map[SoundName.SWOOSH])
 	fall_sound = rl.LoadSound(sound_file_name_map[SoundName.DIE])
 	smack_sound = rl.LoadSound(sound_file_name_map[SoundName.HIT])
+
+	load_savegame()
+
 	rl.PlaySound(whoosh_sound)
 }
 exit_game :: proc() {
