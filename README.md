@@ -3,7 +3,7 @@
 Flappybird written in Odin + Raylib 
 
 ## Screenshot / Demo
-![screenshot](./img/screenshot.png)
+![screenshot](./img/demo.webp)
 
 ## TODO
 > See current status in [TODO.md](./TODO.md)

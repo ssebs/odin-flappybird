@@ -36,7 +36,7 @@ NewHUD :: proc() -> ^HUD {
 		score = 0,
 		high_score = 0,
 		volume_slider = init_volume_slider(DEFAULT_VOL),
-		fast_toggle = init_fast_toggle(),
+		fast_toggle = {},
 		play_hovered = false,
 	}
 	return h

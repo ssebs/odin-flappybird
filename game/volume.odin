@@ -49,9 +49,6 @@ volume_btn_rect :: proc(i: int) -> rl.Rectangle {
 	}
 }
 
-/*
-* Only sets the cursor when hovered, leaving the reset to the caller.
-*/
 update_volume_slider :: proc(this: ^VolumeSlider) {
 	stops := VOLUME_STOPS
 	mouse := get_mouse_native_pos()

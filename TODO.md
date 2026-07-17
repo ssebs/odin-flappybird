@@ -3,9 +3,9 @@
 ## In Progress
 
 ## Backlog
-- [ ] increase ground move speed over time
 
 ## Done
+- [x] increase ground move speed over time
 - [x] animation on character
   - [x] fall rotation
   - [x] sprite animation

@@ -22,8 +22,8 @@ GameEntity :: struct #all_or_none {
 }
 
 /*
-* How far the difficulty has ramped, in steps, for the current score. Fractional at
-* the top, where the clamp lands mid-step.
+* Steps the difficulty has ramped at the current score. Fractional at the top,
+* where the clamp lands mid-step.
 */
 @(private = "file")
 difficulty_steps :: proc() -> f32 {
@@ -37,16 +37,13 @@ difficulty_steps :: proc() -> f32 {
 }
 
 /*
-* Scroll speed for the current score. Everything that scrolls derives from this
-* so the ground, background and pipes stay in step with each other.
+* Scroll speed for the current score. The ground, bg and pipes all derive from
+* this, so they stay in step with each other.
 */
 current_move_speed :: proc() -> f32 {
 	return GROUND_MOVE_SPEED + difficulty_steps() * SPEED_STEP_AMOUNT
 }
 
-/*
-* Per-frame gravity for the current score, ramping alongside the scroll speed.
-*/
 current_gravity :: proc() -> f32 {
 	return GRAVITY + difficulty_steps() * GRAVITY_STEP_AMOUNT
 }
