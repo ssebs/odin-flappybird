@@ -11,8 +11,8 @@ HUD :: struct #all_or_none {
 }
 
 NewHUD :: proc() -> ^HUD {
-	gameover_tx := rl.LoadTexture(texture_file_name_map[TextureName.BG_DAY])
-	pregame_tx := rl.LoadTexture(texture_file_name_map[TextureName.BG_DAY])
+	gameover_tx := rl.LoadTexture(texture_file_name_map[TextureName.GAMEOVER])
+	pregame_tx := rl.LoadTexture(texture_file_name_map[TextureName.PREGAME])
 
 	h: ^HUD = &HUD {
 		game_object = GameObject {
@@ -35,7 +35,15 @@ exit_hud :: proc(this: ^HUD) {
 }
 @(private = "file")
 draw_hud :: proc(this: ^HUD) {
-	draw_score(&this.score_display, this.score, SCORE_TOP_Y)
+	if game_state == GameState.PLAYING {
+		draw_score(&this.score_display, this.score, SCORE_TOP_Y)
+	} else if game_state == GameState.DYING {
+		mid_x := f32(WINDOW_SIZE_X) / 2 - f32(this.gameover_texture.width) / 2
+		rl.DrawTextureEx(this.gameover_texture, rl.Vector2{mid_x, 80}, 0, 1.0, rl.WHITE)
+	} else if game_state == GameState.STOPPED {
+		mid_x := f32(WINDOW_SIZE_X) / 2 - f32(this.pregame_texture.width) / 2
+		rl.DrawTextureEx(this.pregame_texture, {mid_x, 100}, 0, 1.0, rl.WHITE)
+	}
 }
 @(private = "file")
 update_hud :: proc(this: ^HUD) {}

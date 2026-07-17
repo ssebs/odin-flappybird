@@ -152,7 +152,6 @@ player_die :: proc() {
 	player_bird->reset_proc()
 	pipe_spawner->reset_proc()
 	game_state = GameState.STOPPED
-
 }
 @(private = "file")
 player_score :: proc() {

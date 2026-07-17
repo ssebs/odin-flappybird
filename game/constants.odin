@@ -29,6 +29,8 @@ TextureName :: enum {
 	BIRD_MIDFLAP,
 	BIRD_UPFLAP,
 	ICON,
+	GAMEOVER,
+	PREGAME,
 	// digits must stay contiguous, draw_score indexes them by offset
 	DIGIT_0,
 	DIGIT_1,
@@ -58,6 +60,8 @@ texture_file_name_map := map[TextureName]cstring {
 	TextureName.BIRD_MIDFLAP  = "./assets/sprites/yellowbird-midflap.png",
 	TextureName.BIRD_UPFLAP   = "./assets/sprites/yellowbird-upflap.png",
 	TextureName.ICON          = "./assets/favicon.png",
+	TextureName.GAMEOVER      = "./assets/sprites/gameover.png",
+	TextureName.PREGAME       = "./assets/sprites/message.png",
 	TextureName.DIGIT_0       = "./assets/sprites/0.png",
 	TextureName.DIGIT_1       = "./assets/sprites/1.png",
 	TextureName.DIGIT_2       = "./assets/sprites/2.png",

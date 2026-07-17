@@ -1,19 +1,18 @@
 # TODO
 
 ## In Progress
+- [ ] save high score to disk
 
 ## Backlog
 - [ ] animation on character
   - [ ] fall rotation
   - [ ] sprite animation
-- [ ] add reset / start / end screen
-- [ ] save high score to disk
 - [ ] save volume setting to disk
 - [ ] increase ground move speed over time
 
 ## Done
+- [x] add reset / start / end screen
 - [x] add UI to show score
-
 - [x] SFX - Point
 - [x] SFX - Hit + Die 
 - [x] reset pipes on die
